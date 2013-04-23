@@ -1,0 +1,15 @@
+<% title "Edit Survey" %>
+<p>
+  <strong>Name:</strong>
+  <%= @survey.site.name %>
+</p>
+<p>
+  <strong>District:</strong>
+  <%= @survey.site.district %>
+</p>
+<%= render 'form' %>
+
+<p>
+  <%= link_to "Show", survey_path(@survey) %> |
+  <%= link_to "View All", surveys_path %>
+</p>

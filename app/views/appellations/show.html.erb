@@ -1,0 +1,20 @@
+<% title "Appellation" %>
+
+<p>
+  <strong>Site:</strong>
+  <%= @appellation.site_id %>
+</p>
+<p>
+  <strong>Content:</strong>
+  <%= @appellation.content %>
+</p>
+<p>
+  <strong>Period:</strong>
+  <%= @appellation.period %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_appellation_path(@appellation) %> |
+  <%= link_to "Destroy", @appellation, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", appellations_path %>
+</p>

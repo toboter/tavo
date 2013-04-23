@@ -1,0 +1,9 @@
+one:
+  image_id: 1
+  imageable_id: 1
+  imageable_type: MyString
+
+two:
+  image_id: 1
+  imageable_id: 1
+  imageable_type: MyString

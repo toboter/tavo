@@ -1,0 +1,19 @@
+<% title "Besuche" %>
+
+<table>
+  <tr>
+    <th>Start Date</th>
+    <th>End Date</th>
+  </tr>
+  <% for visit in @visits %>
+    <tr>
+      <td><%= visit.start_date %></td>
+      <td><%= visit.end_date %></td>
+      <td><%= link_to "Show", survey_visit_path(visit.survey, visit) %></td>
+      <td><%= link_to "Edit", edit_survey_visit_path(visit.survey, visit) %></td>
+      <td><%= link_to "Destroy", [visit.survey, visit], :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Visit", new_survey_visit_path(@survey) %></p>

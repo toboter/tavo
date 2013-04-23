@@ -1,0 +1,9 @@
+one:
+  title: MyString
+  reporttext: MyText
+  reporttype: MyString
+
+two:
+  title: MyString
+  reporttext: MyText
+  reporttype: MyString

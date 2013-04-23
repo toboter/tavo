@@ -1,0 +1,13 @@
+<% for imagetag in visit.imagetags %>
+  <% if imagetag.image.imagetype == tab || imagetag.image.imagetype == dtab %>
+  <%= link_to (image_tag imagetag.image.imagefile_url(:small), :class => "img-polaroid"), imagetag.image %>
+  <p>
+    <%= imagetag.image.description %><br />
+    <%= imagetag.image.imagetype %>
+ <%= imagetag.image.imagetags %>
+    <% if logged_in? %>
+      <small><%= link_to "Bearbeiten", edit_image_path(imagetag.image) %></small>
+    <% end %>
+  </p>
+  <% end %>
+<% end %>

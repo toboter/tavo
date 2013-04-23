@@ -1,0 +1,16 @@
+<%= form_for @appellation do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label :site_id %><br />
+    <%= f.number_field :site_id %>
+  </p>
+  <p>
+    <%= f.label :content %><br />
+    <%= f.text_field :content %>
+  </p>
+  <p>
+    <%= f.label :period %><br />
+    <%= f.text_field :period %>
+  </p>
+  <p><%= f.submit %></p>
+<% end %>

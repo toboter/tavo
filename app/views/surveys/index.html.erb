@@ -1,0 +1,21 @@
+<% title "Begehungen" %>
+
+<table>
+  <tr>
+    <th>Project</th>
+    <th>Number</th>
+    <th>Site</th>
+  </tr>
+  <% for survey in @surveys %>
+    <tr>
+      <td><%= survey.project.name %></td>
+      <td><%= survey.number %></td>
+      <td><%= survey.site.name %></td>
+      <td><%= link_to "Show", survey_path(survey) %></td>
+      <td><%= link_to "Edit", edit_survey_path(survey) %></td>
+      <td><%= link_to "Destroy", survey, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+

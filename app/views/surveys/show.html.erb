@@ -1,0 +1,26 @@
+<% title "Begehung" %>
+
+<p>
+  <strong>durch Project:</strong>
+  <%= @survey.project.name %>
+</p>
+<p>
+  <strong>von Siedlungsplatz:</strong>
+  <%= @survey.site.name %> (<%= @survey.number %>)
+</p>
+<h3>Besuche am Siedlungsplatz</h3>
+<% unless @survey.visits.empty? %>
+  <% for visit in @survey.visits %>
+  	<p>von <%= link_to "#{visit.start_date}"+" bis "+"#{visit.end_date}", survey_visit_path(visit.survey, visit) %></p>
+  <% end %>
+<% else %>
+  <p>Der Ort wurde bisher noch nicht durch das Projekt besucht. Nehmen Sie <%= link_to "Informationen zu einem neuen Besuch auf", new_survey_visit_path(@survey) %></p>
+<% end %>
+
+
+<p>
+  <%= link_to "Edit", edit_survey_path(@survey) %> |
+  <%= link_to "Destroy", @survey, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", surveys_path %> | 
+  <%= link_to "Informationen zu einem neuen Besuch aufnehmen", new_survey_visit_path(@survey) %>
+</p>

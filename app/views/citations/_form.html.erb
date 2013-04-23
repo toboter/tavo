@@ -1,0 +1,12 @@
+<%= form_for @citation do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label :bibliography_id %><br />
+    <%= f.number_field :bibliography_id %>
+  </p>
+  <p>
+    <%= f.label :target %><br />
+    <%= f.text_field :target %>
+  </p>
+  <p><%= f.submit %></p>
+<% end %>

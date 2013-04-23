@@ -1,0 +1,20 @@
+<% title "Bibliography" %>
+
+<p>
+  <strong>Author:</strong>
+  <%= @bibliography.author %>
+</p>
+<p>
+  <strong>Title:</strong>
+  <%= @bibliography.title %>
+</p>
+<p>
+  <strong>Year:</strong>
+  <%= @bibliography.year %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_bibliography_path(@bibliography) %> |
+  <%= link_to "Destroy", @bibliography, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", bibliographies_path %>
+</p>

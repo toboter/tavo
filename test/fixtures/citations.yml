@@ -1,0 +1,7 @@
+one:
+  bibliography_id: 1
+  target: MyString
+
+two:
+  bibliography_id: 1
+  target: MyString

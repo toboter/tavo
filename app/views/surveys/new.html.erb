@@ -1,0 +1,12 @@
+<% title "New Survey" %>
+<p>
+  <strong>Name:</strong>
+  <%= @site.name %>
+</p>
+<p>
+  <strong>District:</strong>
+  <%= @site.district %>
+</p>
+<%= render 'form' %>
+
+<p><%= link_to "Back to List", surveys_path %></p>

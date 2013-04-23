@@ -1,0 +1,14 @@
+<%= form_for @survey do |f| %>
+  <%= f.error_messages %>
+  <%= f.number_field :site_id %>
+  <p>
+    <%= f.label :project_id %><br />
+    <%= f.collection_select(:project_id, Project.all, :id, :name) %>
+  </p>
+  <p>
+    <%= f.label :number %><br />
+    <%= f.text_field :number %>
+  </p>
+
+  <p><%= f.submit %></p>
+<% end %>

@@ -1,0 +1,26 @@
+<%= nested_form_for @site, :html => { :class => 'form-horizontal' } do |f| %>
+  <%= f.error_messages %>
+  <div class="control-group">
+    <%= f.label :name, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :name, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :district_id, "Bezirk", :class => 'control-label' %>
+    <div class="controls">
+      <%= f.collection_select(:district_id, District.all, :id, :name) %>
+    </div>
+  </div>
+
+  <%= f.fields_for :appellations do |builder| %>
+    <%= render "appellation_fields", :f => builder %>
+  <% end %>
+  <p><%= f.link_to_add "Einen Namen hinzufügen", :appellations %></p>
+
+  <div class="form-actions">
+    <%= f.submit "Speichern", :class => 'btn btn-primary' %>
+    <%= link_to 'Abbrechen', sites_path, :class => 'btn' %>
+  </div>
+
+<% end %>

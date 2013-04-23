@@ -1,0 +1,74 @@
+<% title "Besuch von #{@visit.survey.site.name} am #{@visit.start_date.strftime("%d.%m.%Y")}" %>
+<% content_for :overview do %>
+  <p>
+    Übersicht aller Besuche durch <%= @visit.survey.project.name %> an diesem Siedlungsplatz <%= link_to "ansehen", survey_visits_path(@visit.survey) %>. Zum nächsten | vorherigen Besuch wechseln. Alle durch <%= @visit.survey.project.name %> besuchte Orte <%= link_to "ansehen", project_path(@visit.survey.project) %>.
+  </p>
+  <p>
+    Siedlungsplatz von <%= link_to "#{@visit.survey.site.name}", site_path(@visit.survey.site) %> <%= link_to "(#{@visit.survey.number})", survey_path(@visit.survey) %> für das Projekt <%= link_to "#{@visit.survey.project.name}", project_path(@visit.survey.project) %>. Besuch am <strong><%= link_to "#{@visit.start_date.strftime("%d.%m.%Y")}", survey_visit_path(@visit.survey, @visit) %></strong>.<br />
+    Dauer: <%= convert_seconds_to_time(@visit.start_date, @visit.end_date) %> (zwischen <%= @visit.start_date.strftime("%H:%M") %> und <%= @visit.end_date.strftime("%H:%M") %>).
+  </p>
+<% end %>
+
+<% content_for :text do %>
+<% for report in @visit.reports %>
+  <p>
+    <% if report.title.empty? %>
+      <strong><%= report.reporttype %></strong>
+    <% else %>
+      <strong><%= report.title %></strong> (<%= report.reporttype %>)
+    <% end %>
+    <% if logged_in? %>
+      <small><%= link_to "Bearbeiten", edit_report_path(report) %></small>
+    <% end %>
+  </p>
+  <p><%= report.reporttext %></p>
+<% end %>
+
+<% end %>
+
+<% content_for :media do %>
+    <ul class="nav nav-tabs" id="rightTab">
+      <li class="active dropdown" data-toggle="tab">
+      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        Ansichten
+        <b class="caret"></b>
+      </a>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+        <li><a href="#images" data-toggle="tab">Seite 1</a></li>
+        <li><a href="#images" data-toggle="tab">Seite n</a></li>
+      </ul>
+      </li>
+      <li><a href="#maps" data-toggle="tab">Karten</a></li>
+      <li><a href="#drawings" data-toggle="tab">Pläne und Skizzen</a></li>
+      <li><a href="#literature" data-toggle="tab">Literatur</a></li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane active" id="images">
+        <%= render :partial => "shared/imagetab", :locals => { :visit => @visit, :tab => "Ansicht", :dtab => nil } %>
+      </div>
+      <div class="tab-pane" id="maps">
+        <%= render :partial => "shared/imagetab", :locals => { :visit => @visit, :tab => "Karte", :dtab => nil } %>
+      </div>
+      <div class="tab-pane" id="drawings">
+        <%= render :partial => "shared/imagetab", :locals => { :visit => @visit, :tab => "Plan", :dtab => "Skizze" } %>
+      </div>
+      <div class="tab-pane" id="literature">
+      
+      </div>
+    </div>
+<% end %>
+
+<% content_for :links do %>
+  <div class="row">
+    <div class="span3">
+      <ul class="unstyled">
+        <li><%= link_to "Neuer Bericht", new_report_path(:reportable_type => @visit.class, :reportable_id => @visit) %></li>
+        <li><%= link_to "Bild hinzufügen oder verknüpfen", new_imagetag_path(:imageable_id => @visit, :imageable_type => @visit.class) %></li>
+      </ul>
+    </div>
+    <div class="span2 text-right">
+      <%= link_to "Bearbeiten", edit_survey_visit_path(@visit.survey, @visit), :class => 'btn btn-small' %>
+      <%= link_to "Löschen", [@visit.survey, @visit], :confirm => 'Are you sure?', :method => :delete, :class => 'btn btn-small btn-danger' %>
+    </div>
+  </div>
+<% end %>

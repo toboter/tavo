@@ -1,0 +1,47 @@
+<% title "Siedlungsplätze" %>
+
+<div class="row">
+  <div class="span8">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th class="span5">Name</th>
+          <th class="span2">Bezirk</th>
+          <th class="span2"><div style="width:40px; display:inline-block;">Nr.</div>Projekt</th>
+          <% if logged_in? %>
+            <th></th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% for site in @sites %>
+          <tr>
+            <td>
+              <ul class="unstyled">
+                <li><%= link_to site.name, site %></li>
+                <li><small><%= site.appellations.map(&:appellation_list).join(", ") %></small></li>
+              </ul>
+            </td>
+            <td><%= site.district.name %></td>
+            <td>
+              <ul class="unstyled">
+                <% for survey in site.surveys %>
+                  <li><div style="width:40px; display:inline-block;">(<%= link_to survey.number, survey_path(survey) %>)</div> <%= survey.project.name %></li>
+                <% end %>
+              </ul>
+            </td>
+            <% if logged_in? %>
+              <td style="text-align:right;">
+                <%= link_to "Bearbeiten", edit_site_path(site), :class => 'btn btn-mini' %>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="span4">
+    <p>Unwichtiger Text an der Seite. Vielleicht ein paar Bilder. Vielleicht auch Pläne oder eine Karte der Siedlungen auf der linken Seite in der Tabelle, die man eigentlich auch noch filtern können muss.</p>
+  </div>
+</div>

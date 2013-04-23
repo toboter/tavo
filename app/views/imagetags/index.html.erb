@@ -1,0 +1,21 @@
+<% title "Imagetags" %>
+
+<table>
+  <tr>
+    <th>Image</th>
+    <th>Imageable</th>
+    <th>Imageable Type</th>
+  </tr>
+  <% for imagetag in @imagetags %>
+    <tr>
+      <td><%= imagetag.image_id %></td>
+      <td><%= imagetag.imageable_id %></td>
+      <td><%= imagetag.imageable_type %></td>
+      <td><%= link_to "Show", imagetag.image %></td>
+      <td><%= link_to "Edit", edit_imagetag_path(imagetag) %></td>
+      <td><%= link_to "Destroy", imagetag, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Imagetag", new_imagetag_path %></p>

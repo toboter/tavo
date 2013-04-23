@@ -1,0 +1,19 @@
+<% title "Citations" %>
+
+<table>
+  <tr>
+    <th>Bibliography</th>
+    <th>Target</th>
+  </tr>
+  <% for citation in @citations %>
+    <tr>
+      <td><%= citation.bibliography_id %></td>
+      <td><%= citation.target %></td>
+      <td><%= link_to "Show", citation %></td>
+      <td><%= link_to "Edit", edit_citation_path(citation) %></td>
+      <td><%= link_to "Destroy", citation, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Citation", new_citation_path %></p>

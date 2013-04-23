@@ -1,0 +1,21 @@
+<% title "Districts" %>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Country</th>
+    <th>Museum Address</th>
+  </tr>
+  <% for district in @districts %>
+    <tr>
+      <td><%= district.name %></td>
+      <td><%= district.country %></td>
+      <td><%= district.museum_address %></td>
+      <td><%= link_to "Show", district %></td>
+      <td><%= link_to "Edit", edit_district_path(district) %></td>
+      <td><%= link_to "Destroy", district, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New District", new_district_path %></p>

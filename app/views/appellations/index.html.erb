@@ -1,0 +1,19 @@
+<% title "Appellations" %>
+
+<table>
+  <tr>
+    <th>Site</th>
+    <th>Content</th>
+    <th>Period</th>
+  </tr>
+  <% for appellation in @appellations %>
+    <tr>
+      <td><%= appellation.site_id %></td>
+      <td><%= appellation.content %></td>
+      <td><%= appellation.period %></td>
+      <td><%= link_to "Show", appellation %></td>
+      <td><%= link_to "Edit", edit_appellation_path(appellation) %></td>
+      <td><%= link_to "Destroy", appellation, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>

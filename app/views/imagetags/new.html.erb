@@ -1,0 +1,21 @@
+<% title "Neues Bild verknüpfen" %>
+
+<%= form_for @imagetag, :html => {:multipart => true} do |f| %>
+  <%= f.error_messages %>
+  <%= f.hidden_field :imageable_id %>
+  <%= f.hidden_field :imageable_type %>
+
+  <%= f.fields_for :image do |image_form|  %>
+    <%= render "image_fields", :f => image_form %>
+  <% end %>
+
+  <p>oder ein bestehendes Bild verknüpfen</p>
+  <% for image in Image.all %>
+    <%= image_tag image.imagefile_url(:thumb), :class => "img-polaroid" %>
+    <%= check_box_tag "image_ids[]", image.id %>
+  <% end %>
+
+  <p><%= f.submit %></p>
+<% end %>
+
+<p><%= link_to "Back to List", imagetags_path %></p>

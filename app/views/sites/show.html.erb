@@ -1,0 +1,93 @@
+<% title "#{@site.name}" %>
+
+<% content_for :overview do %>
+  <p>
+    <%= @site.appellations.map(&:appellation_list).join(", ") %><br />
+    (<%= @site.district.name %>)
+  </p>
+  <%= link_to "Zurück zur Übersicht", sites_path %>
+<% end %>
+
+<% content_for :links do %>
+  <div class="row">
+    <div class="span3">
+      <%= link_to "Begehen durch ein neues Projekt", new_survey_path(:site_id => @site) %>
+    </div>
+    <div class="span2 text-right">
+      <%= link_to "Bearbeiten", edit_site_path(@site), :class => 'btn btn-small' %>
+      <%= link_to "Löschen", @site, :confirm => 'Are you sure?', :method => :delete, :class => 'btn btn-small btn-danger' %>
+    </div>
+  </div>
+<% end %>
+
+<% content_for :text do %>
+    <% for survey in @site.surveys %>
+      <h3><%= link_to "(#{survey.number}) "+"#{survey.project.name}", survey_path(survey) %></h3>
+      <% for visit in survey.visits.order("start_date DESC") %>
+      
+        <h4>
+          Besuch am <strong><%= link_to "#{visit.start_date.strftime("%d.%m.%Y")}", survey_visit_path(visit.survey, visit) %></strong></h4>
+        <p>
+          Dauer: <%= convert_seconds_to_time(visit.start_date, visit.end_date) %> (zwischen <%= visit.start_date.strftime("%H:%M") %> und <%= visit.end_date.strftime("%H:%M") %>)
+        </p>
+        <% for report in visit.reports %>
+          <p>
+            <% if report.title.empty? %>
+              <strong><%= report.reporttype %></strong>
+            <% else %>
+              <strong><%= report.title %></strong> (<%= report.reporttype %>)
+            <% end %>
+            <% if logged_in? %>
+              <small><%= link_to "Bearbeiten", edit_report_path(report) %></small>
+            <% end %>
+          </p>
+          <p><%= report.reporttext %></p>
+        <% end %>
+      <% end %>
+    <% end %>
+<% end %>
+
+<% content_for :media do %>
+    <ul class="nav nav-tabs" id="rightTab">
+      <li class="active dropdown" data-toggle="tab">
+      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        Ansichten
+        <b class="caret"></b>
+      </a>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+        <li><a href="#images" data-toggle="tab">Seite 1</a></li>
+        <li><a href="#images" data-toggle="tab">Seite n</a></li>
+      </ul>
+      </li>
+      <li><a href="#maps" data-toggle="tab">Karten</a></li>
+      <li><a href="#drawings" data-toggle="tab">Pläne und Skizzen</a></li>
+      <li><a href="#literature" data-toggle="tab">Literatur</a></li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane active" id="images">
+        <% for survey in @site.surveys %>
+          <% for visit in survey.visits %>
+            <%= render :partial => "shared/imagetab", :locals => { :visit => visit, :tab => "Ansicht", :dtab => nil } %>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="tab-pane" id="maps">
+        <% for survey in @site.surveys %>
+          <% for visit in survey.visits %>
+            <%= render :partial => "shared/imagetab", :locals => { :visit => visit, :tab => "Karte", :dtab => nil } %>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="tab-pane" id="drawings">
+        <% for survey in @site.surveys %>
+          <% for visit in survey.visits %>
+            <%= render :partial => "shared/imagetab", :locals => { :visit => visit, :tab => "Plan", :dtab => "Skizze" } %>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="tab-pane" id="literature">
+      
+      </div>
+    </div>
+<% end %>
+

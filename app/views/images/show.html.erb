@@ -1,0 +1,33 @@
+<% title "Image", nil %>
+
+<div class="row">
+  <div class="span8">
+    <%= link_to image_tag(@image.imagefile_url(:big), :class => "img-polaroid"), @image, :data => {:toggle => "tooltip"}, :title => "Anklicken öffnet das Original" %>
+    <p>
+      <strong>Description:</strong>
+      <%= @image.description %>
+    </p>
+  </div>
+  <div class="span4">
+    <p>
+      <strong>Image:</strong>
+      <%= @image.imagefile %><br />
+      EXIF daten
+    </p>
+    <ul>
+      <% for imagetag in @image.imagetags %>
+        <li>
+          <%= link_to "zurück", survey_visit_path(imagetag.imageable.survey, imagetag.imageable) %><br />
+          <%= imagetag.imageable.inspect %><br /><%= imagetag.inspect %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
+
+<p>
+  <%= link_to "Edit", edit_image_path(@image) %> |
+  <%= link_to "Destroy", @image, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", images_path %>
+</p>

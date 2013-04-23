@@ -1,0 +1,21 @@
+<% title "Bibliographies" %>
+
+<table>
+  <tr>
+    <th>Author</th>
+    <th>Title</th>
+    <th>Year</th>
+  </tr>
+  <% for bibliography in @bibliographies %>
+    <tr>
+      <td><%= bibliography.author %></td>
+      <td><%= bibliography.title %></td>
+      <td><%= bibliography.year %></td>
+      <td><%= link_to "Show", bibliography %></td>
+      <td><%= link_to "Edit", edit_bibliography_path(bibliography) %></td>
+      <td><%= link_to "Destroy", bibliography, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Bibliography", new_bibliography_path %></p>

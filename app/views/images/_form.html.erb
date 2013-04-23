@@ -1,0 +1,25 @@
+<%= form_for @image, :html => { :class => 'form-horizontal' } do |f| %>
+  <%= f.error_messages %>
+
+  <div class="control-group">
+    <%= f.label :description, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :description, :class => 'text_area', :rows => 3 %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :imagefile, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.file_field :imagefile %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :imagetype, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.select(:imagetype, Image::IMAGETYPES, :class => 'select-field') %>
+    </div>
+  </div>
+  <div class="form-actions">
+    <%= f.submit "Speichern", :class => 'btn btn-primary' %>
+  </div>
+<% end %>

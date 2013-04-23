@@ -1,0 +1,26 @@
+<%= f.error_messages %>
+
+<div class="control-group">
+  <%= f.label :start_date, :class => 'control-label' %>
+  <div class="controls">
+    <%= f.datetime_select :start_date, :class => 'text-field' %>
+  </div>
+</div>
+<div class="control-group">
+  <%= f.label :end_date, :class => 'control-label' %>
+  <div class="controls">
+    <%= f.datetime_select :end_date, :class => 'text-field' %>
+  </div>
+</div>
+
+
+  <%= f.fields_for :reports do |builder| %>
+    <%= render "report_fields", :f => builder %>
+  <% end %>
+  <p><%= f.link_to_add "Einen Bericht hinzufügen", :reports %></p>
+
+
+  <div class="form-actions">
+    <%= f.submit "Speichern", :class => 'btn btn-primary' %>
+    <%= link_to 'Abbrechen', survey_visits_path(@visit.survey), :class => 'btn' %>
+  </div>

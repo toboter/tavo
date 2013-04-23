@@ -1,0 +1,16 @@
+<% title "Citation" %>
+
+<p>
+  <strong>Bibliography:</strong>
+  <%= @citation.bibliography_id %>
+</p>
+<p>
+  <strong>Target:</strong>
+  <%= @citation.target %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_citation_path(@citation) %> |
+  <%= link_to "Destroy", @citation, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", citations_path %>
+</p>

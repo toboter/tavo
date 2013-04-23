@@ -1,0 +1,33 @@
+@import "bootstrap";
+
+.footer {
+	margin-top: 100px;
+}
+.sitelinks {
+	padding: 10px 0;
+	border-top: 1px solid #efefef;
+}
+.sitelinks h5 {
+	margin-bottom: 0px;
+	color: #777;
+}
+.sitelinks ul li {
+	list-style-type:none;
+	font-size: 0.95em;
+}
+.legal {
+	padding: 10px 0;
+	border-top: 1px solid #efefef; 
+	font-size:0.95em;
+}
+
+.form-actions {
+
+}
+
+ul {
+	margin-left: 0;
+}
+
+
+@import "bootstrap-responsive";

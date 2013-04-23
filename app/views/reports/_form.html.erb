@@ -1,0 +1,20 @@
+<%= form_for @report do |f| %>
+  <%= f.error_messages %>
+  <%= f.hidden_field :reportable_id %>
+  <%= f.hidden_field :reportable_type %>
+  <p>
+    <%= f.label :reporttype %><br />
+    <%= f.select(:reporttype, Report::REPORTTYPES, :class => 'select-field') %>
+  </p>
+  <p>
+    <%= f.label :title %><small>Wenn Sie den Titel weg lassen wird automatisch der Typ verwandt</small><br />
+    <%= f.text_field :title %>
+  </p>
+  <p>
+    <%= f.label :reporttext %><br />
+    <%= f.text_area :reporttext %>
+  </p>
+
+
+  <p><%= f.submit %></p>
+<% end %>

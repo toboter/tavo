@@ -1,0 +1,9 @@
+one:
+  name: MyString
+  country: MyString
+  museum_address: MyString
+
+two:
+  name: MyString
+  country: MyString
+  museum_address: MyString
