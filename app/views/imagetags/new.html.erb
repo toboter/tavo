@@ -1,21 +1,43 @@
-<% title "Neues Bild verknüpfen" %>
+<% title "Ein bestehendes Bild verknüpfen" %>
 
-<%= form_for @imagetag, :html => {:multipart => true} do |f| %>
-  <%= f.error_messages %>
+<%= form_for @imagetag do |f| %>
+<%= f.error_messages %>
   <%= f.hidden_field :imageable_id %>
   <%= f.hidden_field :imageable_type %>
 
-  <%= f.fields_for :image do |image_form|  %>
-    <%= render "image_fields", :f => image_form %>
-  <% end %>
+  <div class="row">
+    <div class="container span12">
+      <% for image in Image.all-@imagetag.not_assigned_to %>
+        <div class="imagelist">
+          <a href="#<%= image.id %>" role="button" data-toggle="modal">
+            <%= image_tag image.imagefile_url(:thumb), :class => "img-polaroid" %>
+          </a>
+          <div class="imagelist_checkbox">
+            <%= check_box_tag "image_ids[]", image.id %>
+          </div>
+        </div>
 
-  <p>oder ein bestehendes Bild verknüpfen</p>
-  <% for image in Image.all %>
-    <%= image_tag image.imagefile_url(:thumb), :class => "img-polaroid" %>
-    <%= check_box_tag "image_ids[]", image.id %>
-  <% end %>
+        <div id="<%= image.id %>" class="modal hide fade large" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel"><%= image.imagefile %></h3>
+          </div>
+          <div class="modal-body large">
+            <p><%= image_tag image.imagefile_url(:big), :class => "img-polaroid" %></p>
+          </div>
+          <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
 
-  <p><%= f.submit %></p>
+  <div class="form-actions">
+    <%= f.submit "Speichern", :class => 'btn btn-primary' %>
+    <%= link_to "Abbrechen", set_path_from_imageable(@imagetag), :class => 'btn' %>
+    oder <%= link_to "Neues Bild hinzufügen", new_image_path, :class => 'btn' %>
+  </div>
 <% end %>
 
-<p><%= link_to "Back to List", imagetags_path %></p>
+

@@ -1,11 +1,10 @@
 <div class="field">
-  <p>
-    <%= f.label :content %><br />
-    <%= f.text_field :content %>
-  </p>
-  <p>
-    <%= f.label :period %><br />
-    <%= f.text_field :period %>
-  </p>
-  <small><%= f.link_to_remove "Diesen Namen entfernen" %></small><br />
+  <div class="control-group">
+    <%= f.label :content, 'Name', :class => 'control-label' %>
+    <div class="controls  controls-row">
+      <%= f.text_field :content, :class => 'text_field' %> 
+      <%= f.text_field :period, :class => 'text_field' %> 
+      <small><%= f.link_to_remove "entfernen" %></small>
+    </div>
+  </div>
 </div>

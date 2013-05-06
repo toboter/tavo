@@ -2,10 +2,12 @@ class SurveysController < ApplicationController
   def index
     #@site = Site.find(params[:site_id])
     @surveys = Survey.all
+    #render :layout => "index_template"
   end
 
   def show
     @survey = Survey.find(params[:id])
+    render :layout => "show_template"
   end
 
   def new

@@ -1,17 +1,37 @@
-<% title "Projects" %>
+<% title "Projekte" %>
 
-<table>
+<% content_for :overview do %>
+  <p>
+    
+  </p>
+<% end %>
+
+<% content_for :thead do %>
   <tr>
-    <th>Name</th>
+    <th class="span7">Bezeichnung</th>
+    <% if logged_in? %>
+      <th></th>
+    <% end %>
   </tr>
+<% end %>
+<% content_for :tbody do %>
   <% for project in @projects %>
     <tr>
-      <td><%= project.name %></td>
-      <td><%= link_to "Show", project %></td>
-      <td><%= link_to "Edit", edit_project_path(project) %></td>
-      <td><%= link_to "Destroy", project, :confirm => 'Are you sure?', :method => :delete %></td>
+      <td>
+        <%= link_to "#{project.name}", project %><br />
+        <% unless project.description == nil %>
+          <small><%= truncate(project.description, :length => 200, :separator => ' ') %></small>
+        <% end %>
+      </td>
+      <% if logged_in? %>
+        <td style="text-align:right;">
+          
+        </td>
+      <% end %>
     </tr>
   <% end %>
-</table>
+<% end %>
 
-<p><%= link_to "New Project", new_project_path %></p>
+<% content_for :indexsidebar do %>
+  <p></p>
+<% end %>

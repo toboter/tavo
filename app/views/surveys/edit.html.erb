@@ -4,12 +4,8 @@
   <%= @survey.site.name %>
 </p>
 <p>
-  <strong>District:</strong>
-  <%= @survey.site.district %>
+  <strong>Bezirk:</strong>
+  <%= @survey.site.district.name %>
 </p>
 <%= render 'form' %>
 
-<p>
-  <%= link_to "Show", survey_path(@survey) %> |
-  <%= link_to "View All", surveys_path %>
-</p>

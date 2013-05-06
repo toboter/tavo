@@ -1,14 +1,71 @@
-<% title "Project" %>
-
-<p>
-  <strong>Name:</strong>
-  <%= @project.name %>
-</p>
-<% for survey in @project.surveys %>
-  <p><%= survey.number %> <%= survey.site.name %></p>
+<% title "Projekt #{@project.name}" %>
+<% content_for :overview do %>
+  <%= @project.responsible_id %>
+  <%= @project.creator_id %>
+  <%= @project.updater_id %>
+  <p>Hier erscheinen Dinge wie: wann angelegt, durch wen, letzte änderung durch wen, wer verantwortlich</p>
 <% end %>
-<p>
-  <%= link_to "Edit", edit_project_path(@project) %> |
-  <%= link_to "Destroy", @project, :confirm => 'Are you sure?', :method => :delete %> |
-  <%= link_to "View All", projects_path %>
-</p>
+
+<% content_for :text do %>
+  <div id="surveys">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th class="span1">Projekt</th>
+          <th class="span1">Nummer</th>
+          <th class="span5">Siedlungsplatz</th>
+          <% if logged_in? %>
+            <th></th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% for survey in @project.surveys %>
+        <tr>
+          <td><%= survey.project.name %></td>
+          <td><%= link_to "#{survey.number}", survey_path(survey) %></td>
+          <td>
+            <ul class="unstyled">
+              <li>
+                <%= link_to "#{survey.site.name}", survey_path(survey) %> 
+              </li>
+              <li><small><%= count_visits(survey) %></small></li>
+            </ul>
+          </td>
+          <% if logged_in? %>
+            <td style="text-align:right;">
+              
+            </td>
+          <% end %>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+
+  <div id="descriptions">
+  	<h4>Projektbeschreibung</h4>
+    <p><%= @project.description %></p>
+    <h4>Vorgehensweise</h4>
+    <p><%= @project.method %></p>
+
+    <h4>Tagebuch</h4>
+    <p><%= @project.reports.inspect %></p>
+    <small><%= link_to "Neuer Tagebucheintrag", new_report_path(:reportable_type => @project.class, :reportable_id => @project) if can? :edit, @project %></small>
+  </div>
+<% end %>
+
+<% content_for :links do %>
+<% if can? :edit, @project %>
+  <div class="row">
+    <div class="span3">
+	  
+	</div>
+	<div class="span2 text-right">
+	  <%= link_to "Bearbeiten", edit_project_path(@project), :class => 'btn btn-small' %>
+      <%= link_to "Löschen", @project, :confirm => 'Are you sure?', :method => :delete, :class => 'btn btn-small btn-danger' %>
+    </div>
+  </div>
+<% end %>
+<% end %>

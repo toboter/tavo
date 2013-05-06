@@ -1,19 +1,53 @@
-<% title "Besuche" %>
+<% title "nicht vorgesehen" %>
+<!--
+<% content_for :overview do %>
+  <p>
+    als Teil der Begehung am Siedlungsplatz von <strong><%= link_to "#{@survey.site.name} (#{@survey.number})", @survey %></strong> für das Projekt <%= link_to "#{@survey.project.name}", project_path(@survey.project) %>. <small>(<%= link_to "zur Siedlungsplatzansicht", @survey.site %>)</small>
+  </p>
+<% end %>
 
-<table>
+<% content_for :thead do %>
+<% unless @survey.visits.empty? %>
   <tr>
-    <th>Start Date</th>
-    <th>End Date</th>
+    <th class="span2">Datum</th>
+    <th class="span3">Dauer</th>
+    <% if logged_in? %>
+      <th></th>
+    <% end %>
   </tr>
-  <% for visit in @visits %>
+<% else %>
+  <tr>
+    <th class="span6"></th>
+    <th class="span2"></th>
+  </tr>
+<% end %>
+<% end %>
+
+<% content_for :tbody do %>
+  <% unless @survey.visits.empty? %>
+    <% for visit in @visits %>
+      <tr>
+        <td><%= link_to "#{visit.start_date.strftime("%d.%m.%Y")}", survey_visit_path(visit.survey, visit) %></td>
+        <td><%= convert_seconds_to_time(visit.start_date, visit.end_date) %></td>
+        <% if logged_in? %>
+          <td style="text-align:right;">
+            <%= link_to "Bearbeiten", edit_survey_visit_path(visit.survey, visit), :class => 'btn btn-mini' %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  <% else %>
     <tr>
-      <td><%= visit.start_date %></td>
-      <td><%= visit.end_date %></td>
-      <td><%= link_to "Show", survey_visit_path(visit.survey, visit) %></td>
-      <td><%= link_to "Edit", edit_survey_visit_path(visit.survey, visit) %></td>
-      <td><%= link_to "Destroy", [visit.survey, visit], :confirm => 'Are you sure?', :method => :delete %></td>
+      <td>Der Ort wurde bisher noch nicht durch das Projekt besucht.</td>
+      <% if logged_in? %>
+        <td><%= link_to "Informationen zu einem neuen Besuch aufnehmen", new_survey_visit_path(@survey) %>.</td>
+      <% end %>
     </tr>
   <% end %>
-</table>
+<% end %>
 
-<p><%= link_to "New Visit", new_survey_visit_path(@survey) %></p>
+<% content_for :indexsidebar do %>
+  <p></p>
+<% end %>
+
+-->

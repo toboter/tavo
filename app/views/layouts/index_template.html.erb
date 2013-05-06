@@ -1,0 +1,27 @@
+<% content_for :content do %>
+<div class="row">
+  <div class="span8">
+    <%= yield(:overview) %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <table class="table table-striped">
+      <thead>
+        <%= yield(:thead) %>
+      </thead>
+      <tbody>
+        <%= yield(:tbody) %>
+      </tbody>
+    </table>
+    <%= yield(:subbody) %>
+  </div>
+
+  <div class="span4">
+    <%= yield(:indexsidebar) %>
+  </div>
+</div>
+<% end %>
+
+<%= render :template => 'layouts/application' %>

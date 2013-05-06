@@ -1,21 +1,41 @@
-<% title "Begehungen" %>
+<% title "nicht vorgesehen" %>
 
-<table>
+<% content_for :overview do %>
+  <p>
+    
+  </p>
+<% end %>
+
+<% content_for :thead do %>
   <tr>
-    <th>Project</th>
-    <th>Number</th>
-    <th>Site</th>
+    <th class="span1">Projekt</th>
+    <th class="span1">Nummer</th>
+    <th class="span5">Siedlungsplatz</th>
+    <% if logged_in? %>
+      <th></th>
+    <% end %>
   </tr>
+<% end %>
+<% content_for :tbody do %>
   <% for survey in @surveys %>
     <tr>
       <td><%= survey.project.name %></td>
-      <td><%= survey.number %></td>
-      <td><%= survey.site.name %></td>
-      <td><%= link_to "Show", survey_path(survey) %></td>
-      <td><%= link_to "Edit", edit_survey_path(survey) %></td>
-      <td><%= link_to "Destroy", survey, :confirm => 'Are you sure?', :method => :delete %></td>
+      <td><%= link_to "#{survey.number}", survey_path(survey) %></td>
+      <td>
+        <ul class="unstyled">
+          <li>
+            <%= link_to "#{survey.site.name}", survey_path(survey) %> 
+          </li>
+          <li><small><%= count_visits(survey) %></small></li>
+        </ul>
+      </td>
+      <% if logged_in? %>
+        <td style="text-align:right;"><%= link_to "Bearbeiten", edit_survey_path(survey), :class => 'btn btn-mini' %></td>
+      <% end %>
     </tr>
   <% end %>
-</table>
+<% end %>
 
-
+<% content_for :indexsidebar do %>
+  <p>some text</p>
+<% end %>

@@ -1,0 +1,56 @@
+<% title "#{available_name(@user)}" %>
+<% content_for :overview do %>
+  <% if @user == current_user && @user.activated == false %>
+    <div class="alert">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <strong>Achtung!</strong> Der Zugang ist bisher eingeschränkt, da Ihr Account noch nicht freigeschaltet wurde!
+    </div>
+  <% end %>
+  <% if @user == current_user && @user.activated == true %>
+    Sie haben die Rolle eines <strong><%= @user.role %></strong>
+  <% end %>
+  <strong><%= @user.role %></strong>
+<% end %>
+
+<% content_for :links do %>
+  <% if @user == current_user %>
+    <%= link_to "Bearbeiten", edit_user_path(current_user), :class => 'btn btn-small pull-right' %>
+  <% end %>
+<% end %>
+
+<% content_for :media do %>
+  <div class="row">
+    <div class="span2">
+      <p><i class="icon-user"></i> <%= available_name(@user) %> (<%= @user.username %>)</p>
+      <p><i class="icon-time"></i> <span>Dabei seit </span><%= @user.created_at.strftime("%d %b %Y") %></p>
+    </div>
+    <div class="span3">
+      <%= image_tag avatar_url(@user, 200), :class => "img-polaroid pull-right" %>
+    </div>
+  </div>
+  <div class="row">
+  <div class="span5" style="padding-top:30px;">
+    <p><i class="icon-envelope"></i> <%= mail_to "#{@user.email}", "#{@user.email}", :encode => "javascript" %></p>
+  	<% if @user.phone.present? %><p><i class="icon-bullhorn"></i> <%= @user.phone %></p><% end %>
+  	<% if @user.fax.present? %><p><i class="icon-bullhorn"></i> <%= @user.fax %></p><% end %>
+  	<% if @user.address.present? %><p><i class="icon-home"></i> <%= @user.address %></p><% end %>
+  </div>
+</div>
+<% end %>
+
+<% content_for :text do %>
+  <% if @user.info.present? %>
+    <h4>Kurzinfo</h4>
+    <p><%= @user.info %></p>
+  <% else %>
+    <p>Der Benutzer hat noch keine Kurzinfo angelegt.</p>
+  <% end %>
+  <% if @user.vitae.present? %>
+    <h4>Vita</h4>
+    <p><%= @user.vitae %></p>
+  <% else %>
+    <p>Der Benutzer hat noch keinen Lebenslauf angelegt.</p>
+  <% end %>
+<br />
+  <h4>Activity</h4>
+<% end %>

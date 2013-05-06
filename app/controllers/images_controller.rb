@@ -9,16 +9,15 @@ class ImagesController < ApplicationController
 
   def new
     @image = Image.new
-
   end
 
   def create
     @image = Image.new(params[:image])
-    if @image.save
-      redirect_to @image, :notice => "Successfully created image."
-    else
-      render :action => 'new'
-    end
+     if @image.save
+       redirect_to @image, :notice => "Successfully created image."
+     else
+       render :action => 'new'
+     end
   end
 
   def edit

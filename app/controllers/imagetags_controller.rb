@@ -21,7 +21,11 @@ class ImagetagsController < ApplicationController
           :imageable_type => @imagetag.imageable_type, 
           :imageable_id => @imagetag.imageable_id).first_or_create
       end
-        redirect_to imagetags_url, :notice => "da sind ids"
+      if @imagetag.imageable_type = 'Visit'
+        redirect_to survey_visit_url(@imagetag.imageable.survey, @imagetag.imageable), :notice => "Die Bilder wurden dem Besuch hinzugefuegt."
+      else
+        redirect_to surveys_url, :notice => "Es gibt zwar schwierigkeiten mit der Weiterleitung, aber die Bilder sind irgendwo."
+      end
     else
     
     if @imagetag.save

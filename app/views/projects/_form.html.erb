@@ -4,5 +4,15 @@
     <%= f.label :name %><br />
     <%= f.text_field :name %>
   </p>
+  <p>
+    <%= f.label :description, "Projektbeschreibung" %><br />
+    <%= f.text_area :description %>
+  </p>
+  <p>
+    <%= f.label :method, "Vorgehensweise" %><br />
+    <%= f.text_area :method %>
+  </p>
   <p><%= f.submit %></p>
 <% end %>
+
+<p>:creator_id, :updater_id, :responsible_id methoden hinzufügen</p>

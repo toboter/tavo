@@ -28,6 +28,28 @@
 ul {
 	margin-left: 0;
 }
+h5 {
+	margin-top:20px;
+}
+
+.imagelist {
+	width: 165px;
+	float: left;
+}
+.imagelist_checkbox {
+	margin: 5px 0 20px 5px;
+}
+.modal.large{
+    width: 880px;
+    margin: -50px 0 0 -440px; /* - width/2 */
+}
+.modal-body.large {
+	max-height: 600px;
+}
+.alert ul li {
+	margin-left:20px;
+}
+
 
 
 @import "bootstrap-responsive";

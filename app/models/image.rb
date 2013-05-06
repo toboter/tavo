@@ -5,5 +5,7 @@ class Image < ActiveRecord::Base
 
   mount_uploader :imagefile, ImagefileUploader
 
+  validates_presence_of :description, :imagetype
+
 IMAGETYPES = %w[Ansicht Plan Skizze Karte]
 end

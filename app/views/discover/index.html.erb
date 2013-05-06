@@ -1,2 +1,47 @@
-<h2>survey.info</h2>
-<p>Find me in app/views/discover/index.html.erb</p>
+<% title "Entdecken", nil %>
+
+<% content_for :overview do %>
+  <h2>survey.info</h2>
+  <p>Willkommen auf survey.info.</p>
+<% end %>
+
+<% content_for :thead do %>
+  <tr>
+    <th class="span5">Name</th>
+    <th class="span2">Bezirk</th>
+    <th class="span2"><div style="width:40px; display:inline-block;">Nr.</div>Projekt</th>
+  </tr>
+<% end %>
+
+<% content_for :tbody do %>
+  <% for site in @sites %>
+    <tr>
+      <td>
+        <ul class="unstyled">
+          <li><%= link_to site.name, site %></li>
+          <li><small><%= site.appellations.map(&:appellation_list).join(", ") %></small></li>
+        </ul>
+      </td>
+      <td><%= site.district.name %></td>
+      <td>
+        <ul class="unstyled">
+          <% for survey in site.surveys %>
+            <li><div style="width:40px; display:inline-block;">(<%= link_to survey.number, survey_path(survey) %>)</div> <%= survey.project.name %></li>
+          <% end %>
+        </ul>
+      </td>
+    </tr>
+  <% end %>
+<% end %>
+
+<% content_for :subbody do %>
+  <p><%= link_to "Alle Siedlungsplätze ansehen", sites_path %></p>
+  <p>Users</p>
+  <p>Projects & staff</p>
+
+  <strong>--> User und Rollen</strong>
+<% end %>
+
+<% content_for :indexsidebar do %>
+  Public Activity
+<% end %>

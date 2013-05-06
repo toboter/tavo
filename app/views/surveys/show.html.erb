@@ -1,26 +1,58 @@
-<% title "Begehung" %>
+<% title "Begehung von #{@survey.site.name}" %>
 
+<% content_for :overview do %>
 <p>
   <strong>durch Project:</strong>
-  <%= @survey.project.name %>
+  <%= @survey.project.name %> im Bezirk <%= @survey.site.district.name %> <small>(<%= link_to "zur Siedlungsplatzansicht", @survey.site %>)</small>
 </p>
 <p>
   <strong>von Siedlungsplatz:</strong>
   <%= @survey.site.name %> (<%= @survey.number %>)
 </p>
-<h3>Besuche am Siedlungsplatz</h3>
-<% unless @survey.visits.empty? %>
-  <% for visit in @survey.visits %>
-  	<p>von <%= link_to "#{visit.start_date}"+" bis "+"#{visit.end_date}", survey_visit_path(visit.survey, visit) %></p>
-  <% end %>
-<% else %>
-  <p>Der Ort wurde bisher noch nicht durch das Projekt besucht. Nehmen Sie <%= link_to "Informationen zu einem neuen Besuch auf", new_survey_visit_path(@survey) %></p>
+<p>
+  <%= link_to "Alle Siedlungsplätze ansehen", sites_path %>
+</p>
 <% end %>
 
+<% content_for :text do %>
+  <% unless @survey.visits.empty? %>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th class="span2">Datum</th>
+          <th class="span3">Dauer</th>
+          <% if logged_in? %>
+            <th></th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% for visit in @survey.visits %>
+          <tr>
+            <td><%= link_to "#{visit.start_date.strftime("%d.%m.%Y")}", survey_visit_path(visit.survey, visit) %></td>
+            <td><%= convert_seconds_to_time(visit.start_date, visit.end_date) %></td>
+            <% if logged_in? %>
+              <td style="text-align:right;">
+                
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+<% end %>
 
-<p>
-  <%= link_to "Edit", edit_survey_path(@survey) %> |
-  <%= link_to "Destroy", @survey, :confirm => 'Are you sure?', :method => :delete %> |
-  <%= link_to "View All", surveys_path %> | 
-  <%= link_to "Informationen zu einem neuen Besuch aufnehmen", new_survey_visit_path(@survey) %>
-</p>
+<% content_for :links do %>
+<% if can? :edit, @survey %>
+  <div class="row">
+    <div class="span3">
+      <%= link_to "Neuen Besuch aufnehmen", new_survey_visit_path(@survey), :class => 'btn btn-small' %></p>
+    </div>
+    <div class="span2 text-right">
+      <%= link_to "Bearbeiten", edit_survey_path(@survey), :class => 'btn btn-small' %>
+      <%= link_to "Löschen", @survey, :confirm => 'Are you sure?', :method => :delete, :class => 'btn btn-small btn-danger' %>
+    </div>
+  </div>
+<% end %>
+<% end %>

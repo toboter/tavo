@@ -1,4 +1,5 @@
 class ReportsController < ApplicationController
+
   def index
     @reports = Report.all
   end
@@ -38,4 +39,5 @@ class ReportsController < ApplicationController
     @report.destroy
     redirect_to reports_url, :notice => "Successfully destroyed report."
   end
+
 end

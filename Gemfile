@@ -36,6 +36,9 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 # https://github.com/NoamB/sorcery
 gem 'sorcery'
 
+# https://github.com/ryanb/cancan
+gem 'cancan'
+
 # http://railscasts.com/episodes/253-carrierwave-file-uploads
 # vorher das Systemgem installieren gem install rmagick v '2.13.2'
 # gem "rmagick"

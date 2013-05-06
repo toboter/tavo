@@ -2,6 +2,7 @@ class VisitsController < ApplicationController
   def index
     @survey = Survey.find(params[:survey_id])
     @visits = @survey.visits.all
+    #render :layout => "index_template"
   end
 
   def show

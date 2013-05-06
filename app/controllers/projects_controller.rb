@@ -1,10 +1,12 @@
 class ProjectsController < ApplicationController
   def index
     @projects = Project.all
+    render :layout => "index_template"
   end
 
   def show
     @project = Project.find(params[:id])
+    render :layout => "show_template"
   end
 
   def new

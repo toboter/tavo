@@ -16,11 +16,17 @@
   <%= f.fields_for :appellations do |builder| %>
     <%= render "appellation_fields", :f => builder %>
   <% end %>
-  <p><%= f.link_to_add "Einen Namen hinzufügen", :appellations %></p>
+  <div class="controls">
+    <p><%= f.link_to_add "Einen weiteren Namen hinzufügen", :appellations %></p>
+  </div>
 
   <div class="form-actions">
     <%= f.submit "Speichern", :class => 'btn btn-primary' %>
-    <%= link_to 'Abbrechen', sites_path, :class => 'btn' %>
+    <% if @site.new_record? %>
+      <%= link_to 'Abbrechen', sites_path, :class => 'btn' %>
+    <% else %>
+      <%= link_to 'Abbrechen', @site, :class => 'btn' %>
+    <% end %>
   </div>
 
 <% end %>

@@ -1,0 +1,116 @@
+<% if @user.activated == false %>
+  <% if cannot? :administrate, @user %>
+    <div class="alert">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <strong>Hm!</strong> Dieser Account ist noch nicht aktiviert. Suchen Sie Rücksprache mit dem Administrator.
+    </div>
+  <% end %>
+<% end %>
+
+  <%= form_for @user, :html => { :class => 'form-horizontal'} do |f| %>
+    <% if can? :administrate, @user %>
+    <div id="active-role">
+      <div class="control-group">
+        <%= f.label :role, :class => 'control-label' %>
+        <div class="controls">
+          <%= f.select(:role, User::ROLES, :class => 'select_field') %>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= f.label :activated, :class => 'control-label' %>
+        <div class="controls">
+          <%= f.check_box :activated, :class => 'check_box' %>
+        </div>
+      </div>
+    </div>
+    <% end %>
+
+    <% if @user == current_user && @user.activated == true %>
+    <div id="identification">
+      <div class="control-group">
+        <%= f.label :username, 'Kurzname', :class => 'control-label' %>
+        <div class="controls">
+          <%= f.text_field :username, :class => 'text_field' %>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= f.label :email, :class => 'control-label' %>
+        <div class="controls">
+          <%= f.text_field :email, :class => 'text_field' %>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= f.label :first_name, :class => 'control-label' %>
+        <div class="controls">
+          <%= f.text_field :first_name, :class => 'text_field' %>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= f.label :last_name, :class => 'control-label' %>
+        <div class="controls">
+          <%= f.text_field :last_name, :class => 'text_field' %>
+        </div>
+      </div>
+    </div>
+    
+    <div id="account"> 
+      <div class="control-group">
+        <%= f.label :password, :class => 'control-label' %>
+        <div class="controls">
+          <%= f.password_field :password, :class => 'password_field' %>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= f.label :password_confirmation, :class => 'control-label' %>
+        <div class="controls">
+          <%= f.password_field :password_confirmation, :class => 'password_field' %>
+        </div>
+      </div>
+
+    </div>
+    
+    <div id="contact"> 
+      <div class="control-group">
+        <%= f.label :phone, :class => 'control-label' %>
+        <div class="controls">
+          <%= f.text_field :phone, :class => 'text_field' %>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= f.label :fax, :class => 'control-label' %>
+        <div class="controls">
+          <%= f.text_field :fax, :class => 'text_field' %>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= f.label :address, :class => 'control-label' %>
+        <div class="controls">
+          <%= f.text_area :address, :rows => 5, :class => 'text_area' %>
+        </div>
+      </div>
+    </div>
+    
+    <div id="personal"> 
+      <div class="control-group">
+        <%= f.label :info, :class => 'control-label' %>
+        <div class="controls">
+          <%= f.text_area :info, :class => 'text_area' %>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= f.label :vitae, :class => 'control-label' %>
+        <div class="controls">
+          <%= f.text_area :vitae, :class => 'text_area' %>
+        </div>
+      </div>
+    </div>
+    <% end %>
+
+    <% if @user == current_user && @user.activated == true || current_user.role == "admin" %>
+    <div class="form-actions">
+      <%= f.submit "Speichern", :class => 'btn btn-primary' %>
+      <%= link_to "Abbrechen", user_path(current_user), :class => 'btn' %>
+    </div>
+    <% end %>
+  <% end %>
+Aktivieren und Rolle zuweisen

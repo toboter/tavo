@@ -1,2 +1,38 @@
-<h2>Willkommen <%= current_user.username %></h2>
-<p>Find me in app/views/dashboard/index.html.erb</p>
+<h2>Willkommen <%= available_name(current_user) %></h2>
+
+<% if can? :administrate, 'Dashboard' %>
+  Inaktiv:
+  <ul>
+  <% for user in User.where(:activated => false) %>
+    <li>
+      <%= link_to "#{user.username}", edit_user_path(user) %>
+      <%= user.activated %>
+      <%= user.role %>
+    </li>
+  <% end %>
+</ul>
+
+
+  Aktiviert:
+  <ul>
+  <% for user in User.where(:activated => true) %>
+    <li>
+      <%= link_to "#{user.username}", edit_user_path(user) %>
+      <%= user.activated %>
+      <%= user.role %>
+    </li>
+
+  <% end %>
+</ul>
+  <p>freizugebende Beiträge</p>
+<% end %>
+
+<% if can? :edit, 'Dashboard' %>
+  <p>unvollständige Talls</p>
+<% end %>
+
+<% if can? :read, 'Dashboard' %>
+  <p>unvollständiges Profil</p>
+
+  <p>ungesehene Kommentare</p>
+<% end %>

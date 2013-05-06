@@ -1,12 +1,6 @@
-<% title "Edit Visit" %>
+<% title "Besuch bearbeiten" %>
 
   <%= nested_form_for([@survey, @visit], :url => survey_visit_path) do |f| %>
     <%= render 'form', :f => f %>
+
   <% end %>
-
-
-
-<p>
-  <%= link_to "Show", survey_visit_path(@visit.survey, @visit) %> |
-  <%= link_to "View All", survey_visits_path(@visit.survey) %>
-</p>

@@ -2,31 +2,70 @@
 
 <% content_for :overview do %>
   <p>
-    <%= @site.appellations.map(&:appellation_list).join(", ") %><br />
+    <%= @site.appellations.map(&:appellation_list).join(", ") %>
+    <small><%= link_to "weitere Namen hinzufügen", edit_site_path(@site) if can? :edit, @site %></small><br />
     (<%= @site.district.name %>)
   </p>
   <%= link_to "Zurück zur Übersicht", sites_path %>
 <% end %>
 
 <% content_for :links do %>
+  <% if can? :edit, @site %>
   <div class="row">
     <div class="span3">
-      <%= link_to "Begehen durch ein neues Projekt", new_survey_path(:site_id => @site) %>
+      <%= link_to "Neu Begehen durch ein Projekt", new_survey_path(:site_id => @site), :class => 'btn btn-small' %>
     </div>
     <div class="span2 text-right">
       <%= link_to "Bearbeiten", edit_site_path(@site), :class => 'btn btn-small' %>
       <%= link_to "Löschen", @site, :confirm => 'Are you sure?', :method => :delete, :class => 'btn btn-small btn-danger' %>
     </div>
   </div>
+  <% end %>
 <% end %>
 
 <% content_for :text do %>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th class="span1">Projekt</th>
+      <th class="span1">Nummer</th>
+      <th class="span5">Siedlungsplatz</th>
+      <% if logged_in? %>
+        <th></th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
     <% for survey in @site.surveys %>
-      <h3><%= link_to "(#{survey.number}) "+"#{survey.project.name}", survey_path(survey) %></h3>
+      <tr>
+        <td><%= survey.project.name %></td>
+        <td><%= link_to "#{survey.number}", survey_path(survey) %></td>
+        <td>
+          <ul class="unstyled">
+            <li>
+              <%= link_to "#{survey.site.name}", survey_path(survey) %> 
+            </li>
+            <li><small><%= count_visits(survey) %></small></li>
+          </ul>
+        </td>
+        <% if logged_in? %>
+          <td style="text-align:right;">
+            
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+    <% for survey in @site.surveys %>
+      <h4>Begehung durch <%= link_to "#{survey.project.name} (#{survey.number})", survey_path(survey) %></h4>
       <% for visit in survey.visits.order("start_date DESC") %>
       
-        <h4>
-          Besuch am <strong><%= link_to "#{visit.start_date.strftime("%d.%m.%Y")}", survey_visit_path(visit.survey, visit) %></strong></h4>
+        <h5>
+          Besuch am <strong><%= link_to "#{visit.start_date.strftime("%d.%m.%Y")}", survey_visit_path(visit.survey, visit) %></strong></h5>
         <p>
           Dauer: <%= convert_seconds_to_time(visit.start_date, visit.end_date) %> (zwischen <%= visit.start_date.strftime("%H:%M") %> und <%= visit.end_date.strftime("%H:%M") %>)
         </p>
@@ -45,6 +84,9 @@
         <% end %>
       <% end %>
     <% end %>
+
+
+
 <% end %>
 
 <% content_for :media do %>

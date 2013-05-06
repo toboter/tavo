@@ -1,5 +1,5 @@
-<%= form_for @image, :html => { :class => 'form-horizontal' } do |f| %>
-  <%= f.error_messages %>
+<%= form_for @image, :html => { :class => 'form-horizontal', :multipart => true } do |f| %>
+<%= f.error_messages %>
 
   <div class="control-group">
     <%= f.label :description, :class => 'control-label' %>

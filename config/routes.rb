@@ -18,8 +18,6 @@ Tavo::Application.routes.draw do  get "logout" => "sessions#destroy", :as => "lo
     resources :visits
   end
 
-
-
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

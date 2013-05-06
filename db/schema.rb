@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130422235838) do
+ActiveRecord::Schema.define(:version => 20130429131437) do
 
   create_table "appellations", :force => true do |t|
     t.integer  "site_id"
@@ -64,8 +64,13 @@ ActiveRecord::Schema.define(:version => 20130422235838) do
 
   create_table "projects", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+    t.text     "description"
+    t.text     "method"
+    t.integer  "creator_id"
+    t.integer  "updater_id"
+    t.integer  "responsible_id"
   end
 
   create_table "reports", :force => true do |t|
@@ -105,6 +110,15 @@ ActiveRecord::Schema.define(:version => 20130422235838) do
     t.string   "reset_password_token"
     t.datetime "reset_password_token_expires_at"
     t.datetime "reset_password_email_sent_at"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.boolean  "activated"
+    t.string   "phone"
+    t.string   "fax"
+    t.text     "address"
+    t.text     "info"
+    t.text     "vitae"
+    t.string   "role"
   end
 
   add_index "users", ["remember_me_token"], :name => "index_users_on_remember_me_token"

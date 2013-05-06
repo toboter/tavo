@@ -1,20 +1,42 @@
-<%= form_for @report do |f| %>
+<%= form_for @report, :html => { :class => '' } do |f| %>
   <%= f.error_messages %>
   <%= f.hidden_field :reportable_id %>
   <%= f.hidden_field :reportable_type %>
-  <p>
-    <%= f.label :reporttype %><br />
-    <%= f.select(:reporttype, Report::REPORTTYPES, :class => 'select-field') %>
-  </p>
-  <p>
-    <%= f.label :title %><small>Wenn Sie den Titel weg lassen wird automatisch der Typ verwandt</small><br />
-    <%= f.text_field :title %>
-  </p>
-  <p>
-    <%= f.label :reporttext %><br />
-    <%= f.text_area :reporttext %>
-  </p>
 
+  <div class="row">
+    <div class="span8">
+      <div class="row">
+      <div class="control-group span3">
+        <%= f.label :reporttype, "Typ", :class => 'control-label' %>
+        <div class="controls">
+          <%= f.select(:reporttype, select_report_type(@report.reportable_type), :class => 'select-field span3') %>
+        </div>
+      </div>
+    
+    
+      <div class="control-group span5">
+        <%= f.label :title, :class => 'control-label' %>
+        <div class="controls">
+          <%= f.text_field :title, :size => "30", :class => 'text_field span5' %>
+          <span class="help-block">Wenn Sie den Titel weg lassen wird automatisch der Typ verwandt</span>
+        </div>
+      </div>
+    </div>
 
-  <p><%= f.submit %></p>
+      <div class="control-group">
+        <%= f.label :reporttext, "Text", :class => 'control-label' %>
+        <div class="controls">
+          <%= f.text_area :reporttext, :size => "30x20", :class => 'span8' %>
+        </div>
+      </div>
+    </div>
+    <div class="span4">
+      Andere Informationen.. Literatur hier hinzu vielleicht
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit "Speichern", :class => 'btn btn-primary' %>
+    <%= link_to "Abbrechen", set_path_from_reportable(@report), :class => 'btn' %>
+  </div>
 <% end %>

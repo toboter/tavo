@@ -13,14 +13,16 @@
   </div>
 </div>
 
+<%= f.fields_for :reports do |builder| %>
+  <%= render "report_fields", :f => builder %>
+<% end %>
+<p><%= f.link_to_add "Einen Bericht hinzufügen", :reports %></p>
 
-  <%= f.fields_for :reports do |builder| %>
-    <%= render "report_fields", :f => builder %>
+<div class="form-actions">
+  <%= f.submit "Speichern", :class => 'btn btn-primary' %>
+  <% if @visit.new_record? %>
+    <%= link_to 'Abbrechen', survey_path(@visit.survey), :class => 'btn' %>
+  <% else %>
+    <%= link_to 'Abbrechen', survey_visit_path(@visit.survey, @visit), :class => 'btn' %>
   <% end %>
-  <p><%= f.link_to_add "Einen Bericht hinzufügen", :reports %></p>
-
-
-  <div class="form-actions">
-    <%= f.submit "Speichern", :class => 'btn btn-primary' %>
-    <%= link_to 'Abbrechen', survey_visits_path(@visit.survey), :class => 'btn' %>
-  </div>
+</div>

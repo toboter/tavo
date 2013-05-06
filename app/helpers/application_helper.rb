@@ -14,4 +14,28 @@ module ApplicationHelper
     words << "#{hours} #{hours > 1 ? 'Stunden' : 'Stunde' } und " if hours > 0
     words << "#{minutes} #{minutes == 1 ? 'Minute' : 'Minuten' }"
   end
+
+  def avatar_url(account, size)
+    gravatar_id = Digest::MD5.hexdigest(account.email.downcase) if account.email
+    "http://gravatar.com/avatar/#{gravatar_id}.png?s=#{size}"
+  end
+  
+  def count_visits(survey)
+    count = survey.visits.count.to_i
+    
+    if count == 0
+      link_to "Informationen zu einem Besuch durch #{survey.project.name} aufnehmen", new_survey_visit_path(survey) if logged_in?
+    else
+      "#{count} #{count > 1 ? 'Besuche' : 'Besuch'}"
+    end
+  end
+
+  def available_name(user)
+    unless user.last_name.present? && user.first_name.present?
+      user.username
+    else
+      user.first_name + " " + user.last_name
+    end
+  end
+
 end

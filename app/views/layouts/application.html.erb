@@ -28,16 +28,22 @@
             </ul>
             <ul class="nav pull-right">
               <% if current_user %>
-                <li><%= link_to "Angemeldet als "+current_user.username+" (#{current_user.email})" %></li>
+                <li><%= link_to "Angemeldet als "+available_name(current_user)+" (#{current_user.email})", current_user %></li>
                 <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <strong>Verwalten</strong>
                     <b class="caret"></b>
                   </a>
                   <ul class="dropdown-menu">
-                    <li><%= link_to "Neuer Siedlungsplatz", new_site_path %></li>
-                    <li><%= link_to "Bibliographie ergänzen", new_bibliography_path %></li>
-                    <li><%= link_to "Konfigurieren" %></li>
+                    <li><%= link_to "+ Bilder", new_image_path %></li>
+                    <li><%= link_to "+ Literatur", new_bibliography_path %></li>
+                    <li><%= link_to "+ Siedlungsplatz", new_site_path %></li>
+                    <li><%= link_to "+ Projekt", new_project_path %></li>
+                    <li><%= link_to "+ Distrikt", new_district_path %></li>
+                    <% if current_user.role == "admin" %>
+                      <li class="divider"></li>
+                      <li><%= link_to "Static Pages bearbeiten" %></li>
+                    <% end %>
                   </ul>
                 </li>
                 <li class="dropdown">
@@ -47,7 +53,8 @@
                   </a>
                   <ul class="dropdown-menu">
                     <li><%= link_to "Ihre Aufgaben", dashboard_path %></li>
-                    <li><%= link_to "Ihr Profil" %></li>
+                    <li><%= link_to "Ihr Profil", user_path(current_user) %></li>
+                    <li><%= link_to "Ihr Profil bearbeiten", edit_user_path(current_user) %></li>
                     <li class="divider"></li>
                     <li><%= link_to "Log out", logout_path %></li>
                   </ul>
@@ -66,7 +73,7 @@
       <div class="row">
         <div class="span12">
           <% flash.each do |name, msg| %>
-            <%= content_tag :div, msg, :id => "flash_#{name}" %>
+            <%= content_tag :div, msg, :id => "flash_#{name}", :class => "alert alert-info" %>
           <% end %>
           <%= content_tag :h2, yield(:title) if show_title? %>
           <%= content_for?(:content) ? yield(:content) : yield %>
@@ -79,7 +86,7 @@
       <div class="row sitelinks">
         <div class="span2">
           <ul>
-            <h5>TAVO</h5>
+            <h5>survey.info</h5>
             <li><%= link_to "About" %></li>
             <li><%= link_to "Kontakt & Support" %></li>
           </ul>
@@ -87,11 +94,10 @@
         <div class="span2">
           <ul>
             <h5>Site</h5>
-            <li><%= link_to "Bibliographie", bibliographies_path %></li>
             <li><%= link_to "Siedlungsplätze", sites_path %></li>
+            <li><%= link_to "Bibliographie", bibliographies_path %></li>
             <li><%= link_to "Projekte", projects_path %></li>
-            <li><%= link_to "Begehungen", surveys_path %></li>
-            <li><%= link_to "Fortgeschrittene Suche" %></li>
+            <li><%= link_to "Suche" %></li>
           </ul>
         </div>
         <div class="span2">
