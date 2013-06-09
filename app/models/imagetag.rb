@@ -1,5 +1,6 @@
 class Imagetag < ActiveRecord::Base
-  attr_accessible :image_id, :imageable_id, :imageable_type
+  attr_accessible :image_id, :imageable_id, :imageable_type, :creator_id, :updater_id
+  stampable
   belongs_to :imageable, :polymorphic => true
   belongs_to :image
   

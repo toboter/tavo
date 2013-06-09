@@ -1,10 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :require_login, :except => [:new, :create, :show]
-
-  def show
-    @user = User.find(params[:id])
-    render :layout => "show_template"
-  end
+  before_filter :require_login, :except => [:new, :create]
 
   def new
     @user = User.new
@@ -36,7 +31,7 @@ class UsersController < ApplicationController
       @user = current_user
     end
     if @user.update_attributes(params[:user])
-      redirect_to @user, :notice  => "Successfully updated profile."
+      redirect_to dashboard_url, :notice  => "Profil von #{@user.username} aktualisiert."
     else
       render :action => 'edit'
     end

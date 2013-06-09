@@ -13,10 +13,10 @@
   </div>
 </div>
 
-<%= f.fields_for :reports do |builder| %>
-  <%= render "report_fields", :f => builder %>
+<%= f.fields_for :documents do |builder| %>
+  <%= render "document_fields", :f => builder %>
 <% end %>
-<p><%= f.link_to_add "Einen Bericht hinzufügen", :reports %></p>
+<p><%= f.link_to_add "Einen Bericht hinzufügen", :documents %></p>
 
 <div class="form-actions">
   <%= f.submit "Speichern", :class => 'btn btn-primary' %>

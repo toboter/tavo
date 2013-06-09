@@ -1,13 +1,25 @@
-<% for imagetag in visit.imagetags %>
-  <% if imagetag.image.imagetype == tab || imagetag.image.imagetype == dtab %>
-  <%= link_to (image_tag imagetag.image.imagefile_url(:small), :class => "img-polaroid"), imagetag.image %>
-  <p>
-    <%= imagetag.image.description %><br />
-    <%= imagetag.image.imagetype %>
- <%= imagetag.image.imagetags %>
-    <% if logged_in? %>
-      <small><%= link_to "Bearbeiten", edit_image_path(imagetag.image) %></small>
+<ul class="thumbnails">
+  <% for imagetag in visit.imagetags %>
+    <% if imagetag.image.imagetype == tab || imagetag.image.imagetype == dtab %>
+      <li class="span2">
+        <div class="thumbnail">
+          <%= link_to (image_tag imagetag.image.imagefile_url(:thumb), :class => "img-polaroid"), imagetag.image %>
+          <p>
+            <strong><%= link_to (imagetag.image.name ||= "Untitled"), imagetag.image %></strong> <small>(<%= imagetag.image.imagetype %>)</small>
+          </p>
+          <p style="height:3.3em;line-height:1.1em;">
+            <small><%= truncate(imagetag.image.description, :length => 80, :separator => ' ') %></small>
+          </p>
+          <% if can? :edit, @image %>
+            <p>
+              <small>
+                <%= link_to "Bearbeiten", edit_image_path(imagetag.image) %> | 
+                <%= link_to "Entfernen", imagetag, :confirm => 'Sind Sie sicher? Nur die Verknüpfung wird entfernt!', :method => :delete %>
+              </small>
+            </p>
+          <% end %>
+        </div>
+      </li>
     <% end %>
-  </p>
   <% end %>
-<% end %>
+</ul>

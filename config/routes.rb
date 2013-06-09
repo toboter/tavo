@@ -7,13 +7,15 @@ Tavo::Application.routes.draw do  get "logout" => "sessions#destroy", :as => "lo
   get "dashboard" => "dashboard#index"
   
   resources :projects
-  resources :bibliographies
-  resources :reports
+  resources :references
+  resources :documents
   resources :images
   resources :imagetags
   resources :sites
   resources :appellations
   resources :districts
+  resources :people
+  post "user_connect" => "people#connect_to_user"
   resources :surveys do
     resources :visits
   end

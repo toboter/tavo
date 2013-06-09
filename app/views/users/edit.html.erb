@@ -26,7 +26,6 @@
     <% end %>
 
     <% if @user == current_user && @user.activated == true %>
-    <div id="identification">
       <div class="control-group">
         <%= f.label :username, 'Kurzname', :class => 'control-label' %>
         <div class="controls">
@@ -39,21 +38,7 @@
           <%= f.text_field :email, :class => 'text_field' %>
         </div>
       </div>
-      <div class="control-group">
-        <%= f.label :first_name, :class => 'control-label' %>
-        <div class="controls">
-          <%= f.text_field :first_name, :class => 'text_field' %>
-        </div>
-      </div>
-      <div class="control-group">
-        <%= f.label :last_name, :class => 'control-label' %>
-        <div class="controls">
-          <%= f.text_field :last_name, :class => 'text_field' %>
-        </div>
-      </div>
-    </div>
     
-    <div id="account"> 
       <div class="control-group">
         <%= f.label :password, :class => 'control-label' %>
         <div class="controls">
@@ -66,50 +51,16 @@
           <%= f.password_field :password_confirmation, :class => 'password_field' %>
         </div>
       </div>
-
-    </div>
-    
-    <div id="contact"> 
-      <div class="control-group">
-        <%= f.label :phone, :class => 'control-label' %>
-        <div class="controls">
-          <%= f.text_field :phone, :class => 'text_field' %>
-        </div>
-      </div>
-      <div class="control-group">
-        <%= f.label :fax, :class => 'control-label' %>
-        <div class="controls">
-          <%= f.text_field :fax, :class => 'text_field' %>
-        </div>
-      </div>
-      <div class="control-group">
-        <%= f.label :address, :class => 'control-label' %>
-        <div class="controls">
-          <%= f.text_area :address, :rows => 5, :class => 'text_area' %>
-        </div>
-      </div>
-    </div>
-    
-    <div id="personal"> 
-      <div class="control-group">
-        <%= f.label :info, :class => 'control-label' %>
-        <div class="controls">
-          <%= f.text_area :info, :class => 'text_area' %>
-        </div>
-      </div>
-      <div class="control-group">
-        <%= f.label :vitae, :class => 'control-label' %>
-        <div class="controls">
-          <%= f.text_area :vitae, :class => 'text_area' %>
-        </div>
-      </div>
-    </div>
     <% end %>
 
     <% if @user == current_user && @user.activated == true || current_user.role == "admin" %>
     <div class="form-actions">
       <%= f.submit "Speichern", :class => 'btn btn-primary' %>
-      <%= link_to "Abbrechen", user_path(current_user), :class => 'btn' %>
+      <% if user_person(current_user) %>
+        <%= link_to "Abbrechen", person_path(user_person(current_user)), :class => 'btn' %>
+      <% else %>
+        <%= link_to "Abbrechen", dashboard_path, :class => 'btn' %>
+      <% end %>
     </div>
     <% end %>
   <% end %>

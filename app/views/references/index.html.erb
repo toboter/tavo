@@ -1,0 +1,52 @@
+<% title "Literatur" %>
+
+<% content_for :overview do %>
+  <p>
+    
+  </p>
+<% end %>
+
+<% content_for :thead do %>
+
+
+  <tr>
+    <th></th>
+    <% if can? :edit, @references %>
+      <th></th>
+    <% end %>
+  </tr>
+<% end %>
+<% content_for :tbody do %>
+  <% for reference in @references %>
+    <tr>
+      <td>
+        <%= reference.people.map(&:fullname).join(", ") %>
+        <%= reference.year.strftime("%Y") %>, 
+        <%= link_to "#{reference.title}", reference %>, 
+        <%= reference.publishing_place %>.
+
+        <br />
+        <% unless reference.referencetype == "Monographie" || reference.referencetype == "Artikel" %>
+        <ul style="padding-left:20px;" class="unstyled">
+          <% for article in reference.children.order("first_page ASC") do %>
+            <li><%= article.people.map(&:fullname).join(", ") %>, <%= link_to "#{article.title}", article %>, <%= article.first_page %>-<%= article.last_page %>.</li>
+          <% end %>
+        </ul>
+        <% end %>
+
+      </td>
+      <% if can? :edit, reference %>
+        <td style="text-align:right;">
+          <%= link_to "Bearbeiten", edit_reference_path(reference), :class => 'btn btn-small pull-right' %>
+          <% unless reference.referencetype == "Monographie" || reference.referencetype == "Artikel" %>
+            <%= link_to "Artikel anlegen", new_reference_path(:parent_id => reference), :class => 'btn btn-small' %>
+          <% end %>
+        </td>
+      <% end %>
+    </tr>
+  <% end %>
+<% end %>
+
+<% content_for :indexsidebar do %>
+  <p></p>
+<% end %>

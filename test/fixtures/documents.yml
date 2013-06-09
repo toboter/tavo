@@ -1,0 +1,9 @@
+one:
+  title: MyString
+  content: MyText
+  documenttype: MyString
+
+two:
+  title: MyString
+  content: MyText
+  documenttype: MyString

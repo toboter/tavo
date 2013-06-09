@@ -24,28 +24,44 @@
 
           <div class="nav-collapse collapse">
             <ul class="nav pull-left">
-              <li><%= link_to "Entdecken", root_url %></li>
+              <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                      <strong>Entdecken</strong>
+                      <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><%= link_to "Siedlungsplätze", sites_path %></li>
+                      <li><%= link_to "Personen", people_path %></li>
+                      <li><%= link_to "Literatur", references_path %></li>
+                      <li><%= link_to "Projekte", projects_path %></li>
+                      <li class="divider"></li>
+                      <li><%= link_to "Suche" %></li>
+                    </ul>
+                  </li>
             </ul>
             <ul class="nav pull-right">
               <% if current_user %>
-                <li><%= link_to "Angemeldet als "+available_name(current_user)+" (#{current_user.email})", current_user %></li>
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <strong>Verwalten</strong>
-                    <b class="caret"></b>
-                  </a>
-                  <ul class="dropdown-menu">
-                    <li><%= link_to "+ Bilder", new_image_path %></li>
-                    <li><%= link_to "+ Literatur", new_bibliography_path %></li>
-                    <li><%= link_to "+ Siedlungsplatz", new_site_path %></li>
-                    <li><%= link_to "+ Projekt", new_project_path %></li>
-                    <li><%= link_to "+ Distrikt", new_district_path %></li>
-                    <% if current_user.role == "admin" %>
-                      <li class="divider"></li>
-                      <li><%= link_to "Static Pages bearbeiten" %></li>
-                    <% end %>
-                  </ul>
-                </li>
+                <li><%= link_to "Angemeldet als "+available_name(current_user)+" (#{current_user.email})", dashboard_path %></li>
+                <% if can? :edit, nil %>
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                      <strong>Verwalten</strong>
+                      <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><%= link_to "+ Person", new_person_path %></li>
+                      <li><%= link_to "+ Bild", new_image_path %></li>
+                      <li><%= link_to "+ Literatur", new_reference_path %></li>
+                      <li><%= link_to "+ Siedlungsplatz", new_site_path %></li>
+                      <li><%= link_to "+ Projekt", new_project_path %></li>
+                      <li><%= link_to "+ Distrikt", new_district_path %></li>
+                      <% if current_user.role == "admin" %>
+                        <li class="divider"></li>
+                        <li><%= link_to "Static Pages bearbeiten" %></li>
+                      <% end %>
+                    </ul>
+                  </li>
+                <% end %>
                 <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <strong>Account</strong>
@@ -53,8 +69,17 @@
                   </a>
                   <ul class="dropdown-menu">
                     <li><%= link_to "Ihre Aufgaben", dashboard_path %></li>
-                    <li><%= link_to "Ihr Profil", user_path(current_user) %></li>
-                    <li><%= link_to "Ihr Profil bearbeiten", edit_user_path(current_user) %></li>
+                    <% if user_person(current_user) %>
+                      <li><%= link_to "Ihr Profil", person_path(user_person(current_user)) %></li>
+                      <li><%= link_to "Profil bearbeiten", edit_person_path(user_person(current_user)) %></li>
+                    <% else %>
+                      <li>
+                        <a href="#userconnect" role="button" data-toggle="modal">
+                          Profil verbinden
+                        </a>
+                      </li>
+                    <% end %>
+                    <li><%= link_to "Account bearbeiten", edit_user_path(current_user) %></li>
                     <li class="divider"></li>
                     <li><%= link_to "Log out", logout_path %></li>
                   </ul>
@@ -95,7 +120,7 @@
           <ul>
             <h5>Site</h5>
             <li><%= link_to "Siedlungsplätze", sites_path %></li>
-            <li><%= link_to "Bibliographie", bibliographies_path %></li>
+            <li><%= link_to "Literatur", references_path %></li>
             <li><%= link_to "Projekte", projects_path %></li>
             <li><%= link_to "Suche" %></li>
           </ul>
@@ -127,6 +152,27 @@
           <p><%= session.inspect if session %></p>
         </div>
       </div>
-    </div> 
+    </div>
+  <% if logged_in? %><% unless user_person(current_user) %>
+    <div id="userconnect" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Account mit Profil verbinden</h3>
+      </div>
+      <%= form_tag user_connect_path do %>
+        <div class="modal-body">
+          <%= label_tag :id, 'Profil auswählen' %>
+          <%= select_tag :id, options_from_collection_for_select(Person.unconnected, "id", "fullname") %>
+          <%= hidden_field_tag :connect_user_id, current_user.id %>
+
+        </div>
+        <div class="modal-footer">
+          <%= submit_tag "Verbinden", class: "btn btn-primary" %>
+          <button class="btn" data-dismiss="modal" aria-hidden="true">Abbrechen</button>
+          <span class="pull-left">Nicht dabei? <%= link_to "Neues Profil anlegen", new_person_path(:user_id => current_user) %></span>
+        </div>
+      <% end %>
+    </div>
+  <% end %><% end %>
   </body>
 </html>

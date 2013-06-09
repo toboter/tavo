@@ -1,0 +1,16 @@
+<div class="field", style="border:1px dashed #eee; padding:20px 0 10px 0; margin-top:5px;">
+  <div class="control-group">
+    <%= f.label :person_id, 'Account (optional)', :class => 'control-label' %>
+    <div class="controls controls-row">
+      <%= f.collection_select(:person_id, Person.all, :id, :fullname) %>
+      <small><%= f.link_to_remove "entfernen" %></small>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :task, 'Aufgabe', :class => 'control-label' %>
+    <div class="controls">
+      <%= f.select(:task, Membership::TASKS, :class => 'select-field') %>
+    </div>
+  </div>
+  
+</div>

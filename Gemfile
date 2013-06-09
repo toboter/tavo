@@ -57,3 +57,11 @@ gem "carrierwave"
 # gem 'debugger'
 
 gem "mocha", :group => :test
+
+# https://github.com/toboter/userstamp
+gem 'userstamp', :git => "git://github.com/toboter/userstamp.git"
+
+gem "friendly_id", "~> 4.0.9"
+
+# https://github.com/stefankroes/ancestry
+gem 'ancestry'

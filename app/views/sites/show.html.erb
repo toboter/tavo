@@ -69,18 +69,18 @@
         <p>
           Dauer: <%= convert_seconds_to_time(visit.start_date, visit.end_date) %> (zwischen <%= visit.start_date.strftime("%H:%M") %> und <%= visit.end_date.strftime("%H:%M") %>)
         </p>
-        <% for report in visit.reports %>
+        <% for document in visit.documents %>
           <p>
-            <% if report.title.empty? %>
-              <strong><%= report.reporttype %></strong>
+            <% if document.title.empty? %>
+              <strong><%= document.documenttype %></strong>
             <% else %>
-              <strong><%= report.title %></strong> (<%= report.reporttype %>)
+              <strong><%= document.title %></strong> (<%= document.documenttype %>)
             <% end %>
             <% if logged_in? %>
-              <small><%= link_to "Bearbeiten", edit_report_path(report) %></small>
+              <small><%= link_to "Bearbeiten", edit_document_path(document) %></small>
             <% end %>
           </p>
-          <p><%= report.reporttext %></p>
+          <p><%= document.content %></p>
         <% end %>
       <% end %>
     <% end %>
@@ -128,7 +128,13 @@
         <% end %>
       </div>
       <div class="tab-pane" id="literature">
-      
+        <ul>
+        <% for survey in @site.surveys %>
+          <% for cite in survey.citations %>
+            <li><%= raw cite_entry(cite) %></li>
+          <% end %>
+        <% end %>
+        </ul>
       </div>
     </div>
 <% end %>

@@ -1,0 +1,53 @@
+<% title "Literatureintrag" %>
+<% content_for :overview do %>
+  <p>
+    <strong>
+      <% if @reference.referencetype == "Monographie" || @reference.referencetype == "Artikel" %>
+        Autor:
+      <% else %>
+        Herausgeber:
+      <% end %>
+    </strong> 
+    <%= @reference.people.map(&:fullname).join(", ") %>
+  </p>
+  <p>
+    <strong>Title:</strong>
+    <%= @reference.title %> <%= "("+@reference.referencetype+")" if @reference.is_root? %>
+  </p>
+
+  <% if @reference.referencetype == "Artikel" %>
+    <p><strong>Erschienen in: </strong><%= @reference.parent.people.map(&:fullname).join(", ") %> (Hrsg.), <%= @reference.parent.year.strftime("%Y") %>, <%= link_to "#{@reference.parent.title}", @reference.parent %>, <%= @reference.first_page %>-<%= @reference.last_page %>, <%= @reference.parent.publishing_place %>.</p>
+  <% else %>
+    <p>
+      <strong>Erscheinungsjahr:</strong>
+      <%= @reference.year.strftime("%Y") %>
+    </p>
+    <p>
+      <strong>Erscheinungsort:</strong>
+      <%= @reference.publishing_place %>
+    </p>
+  <% end %>
+
+  <%= link_to "Zurück zu Übersicht", references_path %>
+<% end %>
+
+<% content_for :text do %>
+<% unless @reference.referencetype == "Monographie" || @reference.referencetype == "Artikel" %>
+<h4>Inhalt</h4>
+  <ul class="unstyled">
+    <% for article in @articles.order("first_page ASC") do %>
+      <li><%= article.people.map(&:fullname).join(", ") %>, <%= link_to "#{article.title}", article %>, <%= article.first_page %>-<%= article.last_page %></li>
+    <% end %>
+  </ul>
+<% end %>
+<% end %>
+
+<% content_for :links do %>
+  <% if can? :edit, @reference %>
+    <%= link_to "Bearbeiten", edit_reference_path(@reference), :class => 'btn btn-small pull-right' %>
+    <%= link_to "Löschen", @reference, :confirm => 'Are you sure?', :method => :delete, :class => 'btn btn-small btn-danger pull-right' %>
+    <% unless @reference.referencetype == "Monographie" || @reference.referencetype == "Artikel" %>
+      <%= link_to "Artikel in diesem Buch anlegen", new_reference_path(:parent_id => @reference) %>
+    <% end %>
+  <% end %>
+<% end %>

@@ -1,4 +1,4 @@
-<% title "Ein bestehendes Bild verknüpfen" %>
+<% title "Bilder zum Besuch von #{@imagetag.imageable_type.constantize.find_by_id(@imagetag.imageable_id).survey.site.name} am #{@imagetag.imageable_type.constantize.find_by_id(@imagetag.imageable_id).start_date.strftime("%d.%m.%Y")} verknüpfen" %>
 
 <%= form_for @imagetag do |f| %>
 <%= f.error_messages %>
@@ -7,15 +7,30 @@
 
   <div class="row">
     <div class="container span12">
+      <ul class="thumbnails">
       <% for image in Image.all-@imagetag.not_assigned_to %>
-        <div class="imagelist">
-          <a href="#<%= image.id %>" role="button" data-toggle="modal">
-            <%= image_tag image.imagefile_url(:thumb), :class => "img-polaroid" %>
-          </a>
-          <div class="imagelist_checkbox">
-            <%= check_box_tag "image_ids[]", image.id %>
+        <li class="span2">
+          <div class="thumbnail">
+            <a href="#<%= image.id %>" role="button" data-toggle="modal">
+              <%= image_tag image.imagefile_url(:thumb), :class => "img-polaroid" %>
+            </a>
+            <p><%= check_box_tag "image_ids[]", image.id %> auswählen</p>
+            <p>
+              <strong><%= link_to (image.name ||= "Untitled"), image %></strong> <small>(<%= image.imagetype %>)</small>
+            </p>
+            <p style="height:3.3em;line-height:1.1em;">
+              <small><%= truncate(image.description, :length => 80, :separator => ' ') %></small>
+            </p>
+            <% if can? :edit, image %>
+              <p>
+                <small>
+                  <%= link_to "Bearbeiten", edit_image_path(image) %> | 
+                  <%= link_to "Entfernen", image, :confirm => 'Bild endgültig entfernen?', :method => :delete %>
+                </small>
+              </p>
+            <% end %>
           </div>
-        </div>
+        </li>
 
         <div id="<%= image.id %>" class="modal hide fade large" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div class="modal-header">
@@ -30,14 +45,13 @@
           </div>
         </div>
       <% end %>
+    </ul>
     </div>
   </div>
 
   <div class="form-actions">
     <%= f.submit "Speichern", :class => 'btn btn-primary' %>
     <%= link_to "Abbrechen", set_path_from_imageable(@imagetag), :class => 'btn' %>
-    oder <%= link_to "Neues Bild hinzufügen", new_image_path, :class => 'btn' %>
+    oder <%= link_to "Neue Bilder hinzufügren", new_image_path, :class => 'btn' %>
   </div>
 <% end %>
-
-

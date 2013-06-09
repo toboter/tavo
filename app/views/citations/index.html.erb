@@ -2,12 +2,12 @@
 
 <table>
   <tr>
-    <th>Bibliography</th>
+    <th>Reference</th>
     <th>Target</th>
   </tr>
   <% for citation in @citations %>
     <tr>
-      <td><%= citation.bibliography_id %></td>
+      <td><%= citation.reference_id %></td>
       <td><%= citation.target %></td>
       <td><%= link_to "Show", citation %></td>
       <td><%= link_to "Edit", edit_citation_path(citation) %></td>

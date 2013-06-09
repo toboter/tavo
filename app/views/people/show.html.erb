@@ -1,0 +1,67 @@
+<% title "#{@person.fullname}" %>
+<% content_for :overview do %>
+  <% if @user.present? && @user == current_user && @user.activated == true %>
+    <p>Sie haben die Rolle eines <strong><%= @user.role %></strong> Ihr Benutzername lautet <strong><%= @user.username %></strong> und die nicht angezeigte Emailadresse lautet <strong><%= @user.email %></strong>.</p>
+  <% end %>
+  <%= link_to "Zurück zur Übersicht", people_path %>
+<% end %>
+
+<% content_for :links do %>
+  <% if can? :edit, @person %>
+    <% if @person.user_id == current_user.id || @person.user_id == nil %>
+      <%= link_to "Profil löschen", @person, :confirm => 'Are you sure?', :method => :delete, :class => 'btn btn-small btn-danger pull-right' %>
+      <%= link_to "Profil bearbeiten", edit_person_path(@person), :class => 'btn btn-small pull-right' %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<% content_for :media do %>
+  <div class="row">
+    <div class="span3 offset2">
+      <div><%= image_tag avatar_url(@person.public_email, 300), :class => "img-polaroid pull-right" %></div>
+      <div>
+        <p>
+          <i class="icon-user"></i> 
+          <%= @person.fullname %> 
+          <% if @person.user_id.present? %>
+            (<%= @user.username %>)<br />
+            <small><%= link_to "Account bearbeiten", edit_user_path(current_user) if @user == current_user %></small>
+          <% end %>
+        </p>
+        <p><i class="icon-time"></i> <span>Profil angelegt am </span><%= @person.created_at.strftime("%d %b %Y") %></p>
+        <% if @person.public_email.present? %>
+          <p>
+            <i class="icon-envelope"></i> 
+            <%= mail_to "#{@person.public_email}", "#{@person.public_email}", :encode => "javascript" %>
+          </p>
+        <% end %>
+        <% if @person.phone.present? %><p><i class="icon-bullhorn"></i> <%= @person.phone %></p><% end %>
+        <% if @person.fax.present? %><p><i class="icon-bullhorn"></i> <%= @person.fax %></p><% end %>
+        <% if @person.address.present? %><p><i class="icon-home"></i> <%= @person.address %></p><% end %>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<% content_for :text do %>
+  <% if @person.info.present? %>
+    <h4>Kurzinfo</h4>
+    <p><%= @person.info %></p>
+  <% else %>
+    <p>Der Benutzer hat noch keine Kurzinfo angelegt.</p>
+  <% end %>
+  <% if @person.vitae.present? %>
+    <h4>Vita</h4>
+    <p><%= @person.vitae %></p>
+  <% else %>
+    <p>Die Person hat noch keinen Lebenslauf angelegt.</p>
+  <% end %>
+<br />
+  <h4>Activity</h4>
+  <h4>Literatur von und mit <%= @person.fullname %></h4>
+  <ul>
+    <% for reference in @person.references do %>
+      <li><%= link_to "#{reference.title}", reference %></li>
+    <% end %>
+  </ul>
+<% end %>

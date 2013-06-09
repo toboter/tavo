@@ -2,12 +2,16 @@
 
 <% content_for :overview do %>
 <p>
-  <strong>durch Project:</strong>
-  <%= @survey.project.name %> im Bezirk <%= @survey.site.district.name %> <small>(<%= link_to "zur Siedlungsplatzansicht", @survey.site %>)</small>
+  <strong>Project:</strong>
+  <%= @survey.project.name %><br /> 
+  <strong>Bezirk:</strong> 
+  <%= @survey.site.district.name %> 
 </p>
 <p>
-  <strong>von Siedlungsplatz:</strong>
-  <%= @survey.site.name %> (<%= @survey.number %>)
+  <strong>Siedlungsplatz:</strong>
+  <%= @survey.site.name %> <small>(<%= link_to "zur Siedlungsplatzansicht", @survey.site %>)</small><br />
+  <strong>Kurzbezeichnung:</strong>
+  <%= @survey.number %>
 </p>
 <p>
   <%= link_to "Alle Siedlungsplätze ansehen", sites_path %>
@@ -40,6 +44,10 @@
         <% end %>
       </tbody>
     </table>
+    <% for visit in @survey.visits %>
+      <h4>Verknüpfungen zum Besuch am <%= visit.start_date.strftime("%d.%m.%Y") %></h4>
+      <%= render :partial => "shared/imagetab", :locals => { :visit => visit, :tab => "Ansicht", :dtab => nil } %>
+    <% end %>
   <% end %>
 <% end %>
 
@@ -47,7 +55,8 @@
 <% if can? :edit, @survey %>
   <div class="row">
     <div class="span3">
-      <%= link_to "Neuen Besuch aufnehmen", new_survey_visit_path(@survey), :class => 'btn btn-small' %></p>
+      <%= link_to "Neuen Besuch aufnehmen", new_survey_visit_path(@survey) %><br />
+      <%= link_to "Literaturverweis erstellen" %>
     </div>
     <div class="span2 text-right">
       <%= link_to "Bearbeiten", edit_survey_path(@survey), :class => 'btn btn-small' %>
@@ -55,4 +64,13 @@
     </div>
   </div>
 <% end %>
+<% end %>
+
+<% content_for :media do %>
+<h4>Literatur zu dieser Begehung</h4>
+      <ul>
+        <% for cite in @survey.citations %>
+          <li><%= raw cite_entry(cite) %></li>
+        <% end %>
+      </ul>
 <% end %>

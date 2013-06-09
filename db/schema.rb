@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130429131437) do
+ActiveRecord::Schema.define(:version => 20130602180704) do
 
   create_table "appellations", :force => true do |t|
     t.integer  "site_id"
@@ -19,23 +19,19 @@ ActiveRecord::Schema.define(:version => 20130429131437) do
     t.string   "period"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-  end
-
-  create_table "bibliographies", :force => true do |t|
-    t.string   "author"
-    t.string   "title"
-    t.date     "year"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.integer  "creator_id"
+    t.integer  "updater_id"
   end
 
   create_table "citations", :force => true do |t|
-    t.integer  "bibliography_id"
+    t.integer  "reference_id"
     t.string   "target"
     t.integer  "citable_id"
     t.string   "citable_type"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.integer  "creator_id"
+    t.integer  "updater_id"
   end
 
   create_table "districts", :force => true do |t|
@@ -44,14 +40,34 @@ ActiveRecord::Schema.define(:version => 20130429131437) do
     t.string   "museum_address"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
+    t.integer  "creator_id"
+    t.integer  "updater_id"
+  end
+
+  create_table "documents", :force => true do |t|
+    t.string   "title"
+    t.text     "content"
+    t.string   "documenttype"
+    t.integer  "documentable_id"
+    t.string   "documentable_type"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+    t.integer  "author_id"
+    t.integer  "creator_id"
+    t.integer  "updater_id"
   end
 
   create_table "images", :force => true do |t|
     t.text     "description"
     t.string   "imagefile"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
     t.string   "imagetype"
+    t.integer  "creator_id"
+    t.integer  "updater_id"
+    t.integer  "author_id"
+    t.date     "original_date"
+    t.string   "name"
   end
 
   create_table "imagetags", :force => true do |t|
@@ -60,6 +76,40 @@ ActiveRecord::Schema.define(:version => 20130429131437) do
     t.string   "imageable_type"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
+    t.integer  "creator_id"
+    t.integer  "updater_id"
+  end
+
+  create_table "memberships", :force => true do |t|
+    t.integer  "project_id"
+    t.integer  "person_id"
+    t.integer  "creator_id"
+    t.integer  "updater_id"
+    t.string   "task"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "people", :force => true do |t|
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "phone"
+    t.string   "fax"
+    t.text     "address"
+    t.text     "info"
+    t.text     "vitae"
+    t.string   "public_email"
+    t.string   "slug"
+    t.integer  "user_id"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "people", ["slug"], :name => "index_people_on_slug", :unique => true
+
+  create_table "people_references", :id => false, :force => true do |t|
+    t.integer "person_id"
+    t.integer "reference_id"
   end
 
   create_table "projects", :force => true do |t|
@@ -73,21 +123,34 @@ ActiveRecord::Schema.define(:version => 20130429131437) do
     t.integer  "responsible_id"
   end
 
-  create_table "reports", :force => true do |t|
+  create_table "references", :force => true do |t|
     t.string   "title"
-    t.text     "reporttext"
-    t.string   "reporttype"
-    t.integer  "reportable_id"
-    t.string   "reportable_type"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.date     "year"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+    t.integer  "creator_id"
+    t.integer  "updater_id"
+    t.string   "publishing_place"
+    t.string   "ancestry"
+    t.string   "first_page"
+    t.string   "last_page"
+    t.string   "referencetype"
+    t.string   "alternative_author"
+    t.string   "volume_number"
   end
+
+  add_index "references", ["ancestry"], :name => "index_references_on_ancestry"
 
   create_table "sites", :force => true do |t|
     t.string   "name"
     t.integer  "district_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.integer  "creator_id"
+    t.integer  "updater_id"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.boolean  "gmaps"
   end
 
   create_table "surveys", :force => true do |t|
@@ -96,6 +159,8 @@ ActiveRecord::Schema.define(:version => 20130429131437) do
     t.integer  "site_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "creator_id"
+    t.integer  "updater_id"
   end
 
   create_table "users", :force => true do |t|
@@ -110,14 +175,7 @@ ActiveRecord::Schema.define(:version => 20130429131437) do
     t.string   "reset_password_token"
     t.datetime "reset_password_token_expires_at"
     t.datetime "reset_password_email_sent_at"
-    t.string   "first_name"
-    t.string   "last_name"
     t.boolean  "activated"
-    t.string   "phone"
-    t.string   "fax"
-    t.text     "address"
-    t.text     "info"
-    t.text     "vitae"
     t.string   "role"
   end
 
@@ -130,6 +188,8 @@ ActiveRecord::Schema.define(:version => 20130429131437) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.integer  "survey_id"
+    t.integer  "creator_id"
+    t.integer  "updater_id"
   end
 
 end

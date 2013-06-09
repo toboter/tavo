@@ -1,0 +1,10 @@
+<div class="field">
+  <div class="control-group">
+    <%= f.label :reference_id, 'Zitat', :class => 'control-label' %>
+    <div class="controls  controls-row">
+      <%= f.collection_select(:reference_id, Reference.all, :id, :entry, :class => 'text_field') %> 
+      <%= f.text_field :target, :class => 'text_field' %> 
+      <small><%= f.link_to_remove "entfernen" %></small>
+    </div>
+  </div>
+</div>

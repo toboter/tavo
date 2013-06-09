@@ -51,21 +51,38 @@
     <p><%= @project.method %></p>
 
     <h4>Tagebuch</h4>
-    <p><%= @project.reports.inspect %></p>
-    <small><%= link_to "Neuer Tagebucheintrag", new_report_path(:reportable_type => @project.class, :reportable_id => @project) if can? :edit, @project %></small>
+    <p><%= @project.documents.inspect %></p>
+    <small><%= link_to "Neuer Tagebucheintrag", new_document_path(:documentable_type => @project.class, :documentable_id => @project) if can? :edit, @project %></small>
   </div>
 <% end %>
 
 <% content_for :links do %>
-<% if can? :edit, @project %>
-  <div class="row">
-    <div class="span3">
+  <% if can? :edit, @project %>
+    <div class="row">
+      <div class="span3">
 	  
-	</div>
-	<div class="span2 text-right">
-	  <%= link_to "Bearbeiten", edit_project_path(@project), :class => 'btn btn-small' %>
-      <%= link_to "Löschen", @project, :confirm => 'Are you sure?', :method => :delete, :class => 'btn btn-small btn-danger' %>
+	    </div>
+	    <div class="span2 text-right">
+	      <%= link_to "Bearbeiten", edit_project_path(@project), :class => 'btn btn-small' %>
+        <%= link_to "Löschen", @project, :confirm => 'Are you sure?', :method => :delete, :class => 'btn btn-small btn-danger' %>
+      </div>
     </div>
-  </div>
+  <% end %>
 <% end %>
+
+<% content_for :media do %>
+  <p style="padding-bottom:250px;">Hierher kommt was vor kurzem alles in diesem Projekt passierte</p>
+
+
+  <h4>Mitarbeiter dieses Projektes</h4>
+  <table class="table table-striped">
+    <tbody>
+      <% for membership in @project.memberships %>
+        <tr>
+          <td><%= link_to "#{membership.person.fullname}", person_path(membership.person) %></td>
+          <td><%= membership.task %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 <% end %>

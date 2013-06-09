@@ -1,5 +1,6 @@
 class Appellation < ActiveRecord::Base
-  attr_accessible :site_id, :content, :period
+  attr_accessible :site_id, :content, :period, :creator_id, :updater_id
+  stampable
   belongs_to :site
 
   validates_presence_of :site_id, :content, :period

@@ -1,0 +1,21 @@
+<div class="field">
+  <div class="control-group">
+    <%= f.label :documenttype, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.select(:documenttype, Document::DOCUMENTTYPES, :class => 'select-field') %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :title, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :title, :class => 'text-field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :content, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :content, :class => 'text-area' %>
+    </div>
+  </div>
+  <small><%= f.link_to_remove "Diese Beschreibung entfernen" %></small>
+</div>

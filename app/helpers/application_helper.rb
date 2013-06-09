@@ -15,8 +15,8 @@ module ApplicationHelper
     words << "#{minutes} #{minutes == 1 ? 'Minute' : 'Minuten' }"
   end
 
-  def avatar_url(account, size)
-    gravatar_id = Digest::MD5.hexdigest(account.email.downcase) if account.email
+  def avatar_url(mail, size)
+    gravatar_id = Digest::MD5.hexdigest(mail.downcase) if mail
     "http://gravatar.com/avatar/#{gravatar_id}.png?s=#{size}"
   end
   
@@ -31,11 +31,19 @@ module ApplicationHelper
   end
 
   def available_name(user)
-    unless user.last_name.present? && user.first_name.present?
-      user.username
+    if user_person(user)
+      user_person(user).fullname
     else
-      user.first_name + " " + user.last_name
+      user.username
     end
+  end
+
+  def user_person(user)
+    Person.find_by_user_id(user)
+  end
+
+  def cite_entry(cit)
+    cit.reference.people.map(&:fullname).join(", ")+ ", " + cit.reference.year.strftime("%Y") + ", " + link_to("#{cit.reference.title}", cit.reference) + ", " + cit.target
   end
 
 end

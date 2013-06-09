@@ -8,7 +8,7 @@ class CitationsController < ApplicationController
   end
 
   def new
-    @citation = Citation.new
+    @citation = Citation.new(:citable_id => params[:citable_id], :citable_type => params[:citable_type])
   end
 
   def create

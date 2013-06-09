@@ -1,2 +1,17 @@
 TAVO or survey.info
-will be an project for managing arcaeological survey data
+is an unfinished project for managing archaeological survey data. The schema of the database is mainly complete and userinteraction possible but many improvements are possible. The main point missing in database and userinterface is the collection of finds and the mapping of settlements to gmaps or something like that.
+If I have more time i will go on on this project.
+
+
+ToDo:
+- Der letzte Admin darf sich weder inaktivieren noch löschen
+- Benutzer sollen sich löschen dürfen
+- Rollen müssen für jede Seite klar sein
+- Sammelfelder -> Kleinfunde, Scherbenkollektionen...
+- Creator/Updater Attribut
+- Original-Author Attribut <- Projekte/Staff
+- Bibliographie insgesamt
+- Bibliographie zu den Projektbegehungen
+- Dokumente zu den Projektbegehungen
+- StaticPages
+- Public Activity. Benutzerspezifisch auf der user_show seite, als auch auf der Entdecken-Startseite

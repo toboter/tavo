@@ -1,29 +1,24 @@
 <h2>Willkommen <%= available_name(current_user) %></h2>
 
 <% if can? :administrate, 'Dashboard' %>
-  Inaktiv:
-  <ul>
-  <% for user in User.where(:activated => false) %>
-    <li>
-      <%= link_to "#{user.username}", edit_user_path(user) %>
-      <%= user.activated %>
-      <%= user.role %>
-    </li>
-  <% end %>
-</ul>
+  <h5>Zu aktivierende, schon registrierte Nutzer</h5>
+  <ul class="unstyled">
+    <% for user in User.inactive %>
+      <li>
+        <%= link_to "#{user.username}", edit_user_path(user) %> (<%= user.role %>)
+      </li>
+    <% end %>
+  </ul>
 
-
-  Aktiviert:
-  <ul>
-  <% for user in User.where(:activated => true) %>
-    <li>
-      <%= link_to "#{user.username}", edit_user_path(user) %>
-      <%= user.activated %>
-      <%= user.role %>
-    </li>
-
-  <% end %>
-</ul>
+  <h5>Bereits aktivierte Nutzer</h5>
+  <ul class="unstyled">
+    <% for user in User.active %>
+      <li>
+        <%= link_to "#{user.username}", edit_user_path(user) %> (<%= user.role %>)
+      </li>
+    <% end %>
+  </ul>
+  
   <p>freizugebende Beiträge</p>
 <% end %>
 

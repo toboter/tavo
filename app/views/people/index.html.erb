@@ -1,0 +1,34 @@
+<% title "Personen" %>
+
+<% content_for :overview do %>
+  <p>
+    
+  </p>
+<% end %>
+
+<% content_for :thead do %>
+  <tr>
+    <th>Name</th>
+    <th>Public email</th>
+    <% if can? :edit, @people %>
+      <th></th>
+    <% end %>
+  </tr>
+<% end %>
+<% content_for :tbody do %>
+  <% for person in @people %>
+    <tr>
+      <td><%= link_to "#{person.fullname}", person %></td>
+      <td><%= person.public_email %></td>
+      <% if can? :edit, @people %>
+        <td style="text-align:right;">
+          <td><%= link_to 'Bearbeiten', edit_person_path(person), :class => 'btn btn-small pull-right' %></td>
+        </td>
+      <% end %>
+    </tr>
+  <% end %>
+<% end %>
+
+<% content_for :indexsidebar do %>
+  <p></p>
+<% end %>

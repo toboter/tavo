@@ -52,7 +52,7 @@ class ImagetagsController < ApplicationController
   def destroy
     @imagetag = Imagetag.find(params[:id])
     @imagetag.destroy
-    redirect_to imagetags_url, :notice => "Successfully destroyed imagetag."
+    redirect_to :back, :notice => "Successfully destroyed imagetag."
   end
 
 
